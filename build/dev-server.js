@@ -7,9 +7,18 @@ var webpack = require('webpack')
 var opn = require('opn')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
+var argv = require('argv')
+
+var args = argv.option( {
+  name: 'port',
+  short: 'p',
+  type: 'int',
+  description: 'define server port',
+  example: "'script --port=value' or 'script -p value'"
+} ).run();
 
 // default port where dev server listens for incoming traffic
-var port = process.env.PORT || config.dev.port
+var port = args.options.port || process.env.PORT || config.dev.port
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
 var proxyTable = config.dev.proxyTable
@@ -19,7 +28,11 @@ var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
-  quiet: true
+  // quiet: true
+  stats: {
+    colors: true,
+    chunks: false
+  }
 })
 
 var hotMiddleware = require('webpack-hot-middleware')(compiler, {
