@@ -1,0 +1,7 @@
+.side-panel {
+  border-radius: 0!important;
+  box-shadow: none!important;
+}
+.side-panel .panel-heading{
+  border-radius: 0;
+}

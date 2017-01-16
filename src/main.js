@@ -3,6 +3,28 @@
 import Vue from 'vue'
 import App from './App'
 
+require('bootstrap/dist/css/bootstrap.css')
+require('bootstrap/dist/js/bootstrap.js')
+
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+
+import Vuex from 'vuex'
+Vue.use(Vuex)
+
+Vue.filter('translate', (v) => `translate(${v})`)
+Vue.filter('embrace', (v, func, ...params) => `${func}(${v}${params.length > 0 ? ',' + params.join(',') : ''})`)
+
+Vue.mixin({
+  methods: {
+    $$dispatch(eventName, args) {
+      var argsCopy = Array.prototype.slice.call(args)
+      argsCopy.unshift(eventName)
+      this.$dispatch.apply(this, argsCopy)
+    }
+  }
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
