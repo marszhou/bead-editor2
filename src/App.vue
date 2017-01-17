@@ -17,7 +17,7 @@ import Dialog from 'components/common/dialog'
 export default {
   name: 'app',
   components: {
-    Counter, Foo, Dialog
+    Counter, Foo, 'bs-dialog': Dialog
   },
   mounted() {
     let loadingEle = document.querySelector('#landing_loading')

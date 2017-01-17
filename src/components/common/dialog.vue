@@ -63,7 +63,7 @@ export default {
   data() {
     return {
 
-    };
+    }
   },
 
   methods: {
@@ -107,12 +107,12 @@ export default {
       }
       let args = Array.prototype.slice.call(arguments) // button, event, dialog
       args.push(this)
-      this.$$dispatch(DialogEvents.ButtonClick, args)
+      this.$$emit(DialogEvents.ButtonClick, args)
     }
   },
 
   mounted() {
-    this.$nextTick( () => {
+    this.$nextTick(() => {
       this.$dialog().on('show.bs.modal', this.handleShow)
                     .on('shown.bs.modal', this.handleShown)
                     .on('hide.bs.modal', this.handleHide)
@@ -126,7 +126,7 @@ export default {
       if (this.autoShow) {
         this.show()
       }
-    }
+    })
   },
 
   beforeDestroy() {
@@ -135,7 +135,7 @@ export default {
                   .off('hide.bs.modal')
                   .off('hidden.bs.modal')
   }
-};
+}
 </script>
 
 <style lang="css" scoped>

@@ -10,6 +10,16 @@ Vue.filter('embrace', (v, func, ...params) => `${func}(${v}${params.length > 0 ?
 Vue.filter('timeDisplay', timeDisplay)
 Vue.filter('percent', percent)
 
+Vue.mixin({
+  methods: {
+    $$emit(eventName, args) {
+      var argsCopy = Array.prototype.slice.call(args)
+      argsCopy.unshift(eventName)
+      this.$emit.apply(this, argsCopy)
+    }
+  }
+})
+
 import store from './store/store'
 const router = require('./routes')(store)
 
