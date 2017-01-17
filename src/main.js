@@ -1,33 +1,23 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 
 require('bootstrap/dist/css/bootstrap.css')
 require('bootstrap/dist/js/bootstrap.js')
 
-import VueRouter from 'vue-router'
-Vue.use(VueRouter)
-
-import Vuex from 'vuex'
-Vue.use(Vuex)
-
+import {timeDisplay, percent} from 'utils/func'
 Vue.filter('translate', (v) => `translate(${v})`)
 Vue.filter('embrace', (v, func, ...params) => `${func}(${v}${params.length > 0 ? ',' + params.join(',') : ''})`)
+Vue.filter('timeDisplay', timeDisplay)
+Vue.filter('percent', percent)
 
-Vue.mixin({
-  methods: {
-    $$dispatch(eventName, args) {
-      var argsCopy = Array.prototype.slice.call(args)
-      argsCopy.unshift(eventName)
-      this.$dispatch.apply(this, argsCopy)
-    }
-  }
-})
+import store from './store/store'
+const router = require('./routes')(store)
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
+  router,
+  store,
+  el: 'app',
   template: '<App/>',
   components: { App }
 })
