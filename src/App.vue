@@ -12,11 +12,12 @@
 <script>
 import Counter from 'components/counter'
 import Foo from 'components/examples/foo'
+import Dialog from 'components/common/dialog'
 
 export default {
   name: 'app',
   components: {
-    Counter, Foo
+    Counter, Foo, Dialog
   },
   mounted() {
     let loadingEle = document.querySelector('#landing_loading')
