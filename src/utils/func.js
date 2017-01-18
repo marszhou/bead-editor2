@@ -1,4 +1,5 @@
 import {sprintf} from 'sprintf-js'
+import { mapGetters, mapActions } from 'vuex'
 
 export function percent(val) {
   return sprintf('%0.1f%%', val * 100)
@@ -41,3 +42,12 @@ export function resourceUnpack(resource, prefix = '') {
     return ret
   }, {})
 }
+
+export function resourceMapGetters(resource, prefix) {
+  return mapGetters(resourceUnpack(resource, prefix))
+}
+
+export function resourceMapActions(resource, prefix) {
+  mapActions(resourceUnpack(resource, prefix))
+}
+
