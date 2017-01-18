@@ -31,7 +31,6 @@ mutations[types.removeAll] = (state) => {
   state.items = []
 }
 //
-
 module.exports = {
   state,
   getters: resourceMapping(getters, prefix),

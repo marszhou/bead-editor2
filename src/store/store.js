@@ -44,11 +44,13 @@ const getters = {
 // -- end
 
 import foo from './modules/foo'
+import beadApp from './modules/bead-app'
 
 export default new Vuex.Store({
   state, mutations, actions, getters,
   modules: {
-    foo
+    foo,
+    beadApp
   },
   strict: debug,
   plugins: debug ? [
@@ -59,7 +61,12 @@ export default new Vuex.Store({
       // },
       ignored(type) {
         return [
-          'router/ROUTE_CHANGED'
+          'bead_app/setMousePosition',
+          'bead_app/setEditorViewPort',
+          'bead_app/setEditorDimension',
+          'bead_app/setEditorSize',
+          'bead_app/setEditorMargin',
+          'bead_app/setMouseDown'
         ].indexOf(type) > -1
       }
     })

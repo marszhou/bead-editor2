@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App'
+import eventHub from './event-hub'
 
 require('bootstrap/dist/css/bootstrap.css')
 require('bootstrap/dist/js/bootstrap.js')
@@ -16,6 +17,23 @@ Vue.mixin({
       var argsCopy = Array.prototype.slice.call(args)
       argsCopy.unshift(eventName)
       this.$emit.apply(this, argsCopy)
+    },
+    $fire(eventName, ...args) {
+      eventHub.$emit(eventName, ...args)
+    },
+    $listen(eventName, func) {
+      eventHub.$on(eventName, func)
+      if (!this.$eventStack) {
+        this.$eventStack = []
+        this.$eventStack.push({name: eventName, handler: func})
+      }
+    }
+  },
+  beforeDestroy() {
+    if (this.$eventStack && _.isArray(this.$eventStack)) {
+      this.$eventStack.forEach((event) => {
+        eventHub.$off(event.name, event.handler)
+      })
     }
   }
 })

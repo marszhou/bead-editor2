@@ -1,23 +1,15 @@
 <template>
-  <div id="app">
-    <counter/>
-    <foo/>
-    <router-view/>
-    <router-link :to='{name: "foo"}'>foo</router-link>
-    <router-link :to='{name: "bar"}'>bar</router-link>
-    <router-link :to='{name: "home"}'>home</router-link>
+  <div class='container-fluid'>
+    <div id="app">
+      <router-view/>
+    </div>
   </div>
 </template>
 
 <script>
-import Counter from 'components/counter'
-import Foo from 'components/examples/foo'
-import Dialog from 'components/common/dialog'
-
 export default {
   name: 'app',
   components: {
-    Counter, Foo, 'bs-dialog': Dialog
   },
   mounted() {
     let loadingEle = document.querySelector('#landing_loading')
