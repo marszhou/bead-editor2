@@ -36,14 +36,7 @@ const actions = {
 }
 
 const mutations = {
-  [beadApp.setMouseDown](state, v, position, viewPort) {
-    state.mousedown = v
-    state.mousedownPosition = position
-    state.mousedownViewPort = viewPort
-  },
-  [beadApp.setMousePosition](state, position) {
-    state.mousePosition = position
-  }
+
 }
 
 // -- 设置当前工具 setCurrentTool
@@ -118,8 +111,8 @@ mutations[beadApp.setAltKey] = (state, v) => {
 actions.setMouseDown = ({ commit }, v, position = null, viewPort = null) => {
   commit(beadApp.setMouseDown, v, position, viewPort)
 }
-mutations[beadApp.setMouseDown] = (state, v, position, viewPort) => {
-  state.mousedown = v
+mutations[beadApp.setMouseDown] = (state, {isDown, position, viewPort} = {}) => {
+  state.mousedown = isDown
   state.mousedownPosition = position
   state.mousedownViewPort = viewPort
 }

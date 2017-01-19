@@ -80,7 +80,11 @@ export default {
       // console.log('mouse-down')
       // console.log(e)
       $(window).on('mouseup', this.handleMouseUp)
-      this.setMouseDown(true, {x: e.pageX, y: e.pageY}, _.clone(this.viewPort))
+      this.setMouseDown({
+        isDown: true,
+        position: {x: e.pageX, y: e.pageY},
+        viewPort: _.clone(this.viewPort)
+      })
     },
     handleGlobalMouseMove(e) {
       let canvasRect = this.$el.getBoundingClientRect()
@@ -89,7 +93,7 @@ export default {
       position.y = position.py - canvasRect.top
       position.rx = position.x - this.viewPort.x1 * this.cellWidth
       position.ry = position.y - this.viewPort.y1 * this.cellWidth
-      this.$emit('bead-canvas:mousemove', position)
+      this.$fire('bead-canvas:mousemove', position)
     },
     handleMouseUp(e) {
       $(window).off('mouseup', this.handleMouseUp)

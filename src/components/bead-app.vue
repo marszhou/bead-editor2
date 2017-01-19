@@ -2,7 +2,6 @@
 <div>
   <toolbar :current='currentTool'></toolbar>
   <div class='row' style='margin-left: 21px'>
-    <router-link :to='{name: "foo"}'>go to foo</router-link>
     <div class='col-xs-10' style='overflow: auto; border-left: 2px outset; border-right: 2px inset; background:#fafafa; padding: 0;text-align: center' :style='{height: windowHeight + "px"}'>
       <editor
         :width='editorDimension.width'
@@ -18,7 +17,7 @@
         :canvas-rect='canvasRect'
         :cursor='editorCursor'></editor>
     </div>
-    <div class='col-xs-2' style='padding: 0'>
+    <div class='col-xs-2' style='padding: 0; max-width: 180px; min-width: 180px'>
       <info-panel :size='editorSize' :dimension='editorDimension'></info-panel>
       <color-palette-panel></color-palette-panel>
     </div>
@@ -29,14 +28,12 @@
 <script>
 import Editor from 'components/editor/editor'
 import Toolbar from 'components/toolbar/toolbar'
-import InfoPanel from 'components/info-panel/info-panel'
+import InfoPanel from 'components/info-panel'
 // import ColorPalettePanel from 'components/color-palette-panel/color-palette-panel'
 
 import {items as ToolbarItems} from 'components/toolbar/const'
 import { resourceMapGetters, resourceMapActions } from 'utils/func'
 const { prefix, state } = require('store/modules/bead-app')
-
-import eventHub from 'src/event-hub'
 
 export default {
   name: 'bead-app',
@@ -120,28 +117,6 @@ export default {
     }
   },
 
-  events: {
-    'bead-canvas:click': function(e, cell) {
-      switch (ToolbarItems[this.currentTool].name) {
-        case 'zoom':
-          this.editorZoomAt(!e.altKey, cell)
-          break
-      }
-    },
-    'toolbar:itemDblclick': function() {
-      if (ToolbarItems[this.currentTool].name === 'zoom') {
-        this.setEditorZoom(1)
-        this.setEditorViewPort({x1: 0, y1: 0, x2: this.editorSize.columns, y2: this.editorSize.rows})
-      }
-    },
-    'bead-canvas:mousemove': function(pos) {
-      // console.log(pos.x, pos.y, pos.rx, pos.ry)
-      if (ToolbarItems[this.currentTool].name === 'hand' && this.mousedown) {
-        this.moveEditorViewPort(pos)
-      }
-    }
-  },
-
   methods: {
     ...resourceMapActions([
       'setEditorViewPort',
@@ -203,17 +178,36 @@ export default {
 
     handleWindowResize() {
       this.windowHeight = window.document.documentElement.clientHeight
-    }
-  },
+    },
 
-  created() {
-    this.$listen('bead-canvas:click', (e, cell) => {
+    handleCanvasClick(e, cell) {
       switch (ToolbarItems[this.currentTool].name) {
         case 'zoom':
           this.editorZoomAt(!e.altKey, cell)
           break
       }
-    })
+    },
+
+    handleToolbarItemDblclick() {
+      if (ToolbarItems[this.currentTool].name === 'zoom') {
+        this.setEditorZoom(1)
+        this.setEditorViewPort({x1: 0, y1: 0, x2: this.editorSize.columns, y2: this.editorSize.rows})
+      }
+    },
+
+    handleCanvasMouseMove(pos) {
+      // console.log(pos)
+      // console.log(pos.x, pos.y, pos.rx, pos.ry)
+      if (ToolbarItems[this.currentTool].name === 'hand' && this.mousedown) {
+        this.moveEditorViewPort(pos)
+      }
+    }
+  },
+
+  created() {
+    this.$listen('bead-canvas:click', this.handleCanvasClick)
+    this.$listen('toolbar:itemDblclick', this.handleToolbarItemDblclick)
+    this.$listen('bead-canvas:mousemove', this.handleCanvasMouseMove)
   },
 
   mounted() {

@@ -73,21 +73,6 @@ export default {
     }
   },
 
-  vuex: {
-    actions: {
-
-    },
-    getters: {
-
-    }
-  },
-
-  data() {
-    return {
-
-    };
-  },
-
   computed: {
     lines() {
       return _.range(this.count + 1)
@@ -120,10 +105,6 @@ export default {
       }
       return factor * 0.125
     }
-  },
-
-  route: {
-
   }
 };
 </script>
