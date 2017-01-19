@@ -24,7 +24,8 @@ const state = {
   mousedownPosition: null,
   mousedownViewPort: null,
 
-  mousePosition: {x: 0, y: 0, column: 0, row: 0}
+  mousePosition: {x: 0, y: 0, column: 0, row: 0},
+  pencilColor: {hex: '#000000'}
 }
 
 const getters = {
@@ -108,8 +109,8 @@ mutations[beadApp.setAltKey] = (state, v) => {
 // --
 
 // -- is mouse down?
-actions.setMouseDown = ({ commit }, v, position = null, viewPort = null) => {
-  commit(beadApp.setMouseDown, v, position, viewPort)
+actions.setMouseDown = ({ commit }, payload) => {
+  commit(beadApp.setMouseDown, payload)
 }
 mutations[beadApp.setMouseDown] = (state, {isDown, position, viewPort} = {}) => {
   state.mousedown = isDown
@@ -124,6 +125,15 @@ actions.setMousePosition = ({ commit }, v) => {
 }
 mutations[beadApp.setMousePosition] = (state, position) => {
   state.mousePosition = position
+}
+// --
+
+// -- setPencilColor
+actions.setPencilColor = ({ commit }, v) => {
+  commit(beadApp.setPencilColor, v)
+}
+mutations[beadApp.setPencilColor] = (state, color) => {
+  state.pencilColor = color
 }
 // --
 

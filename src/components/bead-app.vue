@@ -1,8 +1,8 @@
 <template>
 <div>
   <toolbar :current='currentTool'></toolbar>
-  <div class='row' style='margin-left: 21px'>
-    <div class='col-xs-10' style='overflow: auto; border-left: 2px outset; border-right: 2px inset; background:#fafafa; padding: 0;text-align: center' :style='{height: windowHeight + "px"}'>
+  <div class='row' :style='{"margin-left": leftMargin + "px"}'>
+    <div class='col-xs-10' style='overflow: auto; border-left: 2px outset; border-right: 2px inset; background:#fafafa; padding: 0;text-align: center' :style='{height: windowHeight + "px", width: (windowWidth - leftMargin - rightColumnWidth + 2) + "px"}'>
       <editor
         :width='editorDimension.width'
         :height='editorDimension.height'
@@ -17,9 +17,9 @@
         :canvas-rect='canvasRect'
         :cursor='editorCursor'></editor>
     </div>
-    <div class='col-xs-2' style='padding: 0; max-width: 180px; min-width: 180px'>
+    <div class='col-xs-2' style='padding: 0;' :style='{width: rightColumnWidth + "px"}'>
       <info-panel :size='editorSize' :dimension='editorDimension'></info-panel>
-      <color-palette-panel></color-palette-panel>
+      <toolbar-panel></toolbar-panel>
     </div>
   </div>
 </div>
@@ -29,7 +29,7 @@
 import Editor from 'components/editor/editor'
 import Toolbar from 'components/toolbar/toolbar'
 import InfoPanel from 'components/info-panel'
-// import ColorPalettePanel from 'components/color-palette-panel/color-palette-panel'
+import ToolbarPanel from 'components/toolbar-panel'
 
 import {items as ToolbarItems} from 'components/toolbar/const'
 import { resourceMapGetters, resourceMapActions } from 'utils/func'
@@ -42,7 +42,7 @@ export default {
     Editor,
     Toolbar,
     InfoPanel,
-    // ColorPalettePanel
+    ToolbarPanel
   },
 
   data() {
@@ -50,7 +50,9 @@ export default {
       editorSuggestUnitWidth: 30,
       editorMaxUnitWidth: 70,
       windowWidth: window.document.documentElement.clientWidth,
-      windowHeight: window.document.documentElement.clientHeight
+      windowHeight: window.document.documentElement.clientHeight,
+      rightColumnWidth: 240,
+      leftMargin: 35
     }
   },
 
@@ -178,6 +180,9 @@ export default {
 
     handleWindowResize() {
       this.windowHeight = window.document.documentElement.clientHeight
+      this.windowWidth = window.document.documentElement.clientWidth
+
+      console.log(this.windowWidth)
     },
 
     handleCanvasClick(e, cell) {
@@ -212,7 +217,7 @@ export default {
 
   mounted() {
     this.$nextTick(() => {
-      this.setEditorDimension({width: 1300, height: 800})
+      this.setEditorDimension({width: 800, height: 800})
       this.setEditorSize({columns: 52, rows: 52})
       this.setEditorMargin([30, 30])
 
