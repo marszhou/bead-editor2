@@ -15,6 +15,19 @@
       </li>
       <li class="list-group-item">
         笔触
+        <div class="btn-group btn-group-xs">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            {{readablePencilSize}} <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li v-for='v of sizeRange' @click.prevent='setPencilSize(v)'>
+              <a href="#" >
+              {{v}} x {{v}}
+              <span class='glyphicon glyphicon-check pull-right' v-if='v === pencilSize' style='color: red'></span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </li>
     </ul>
     <div class='color-picker-layer' style='position: absolute; top: 74px' v-show='show'>
@@ -45,19 +58,27 @@ export default {
 
   computed: {
     ...resourceMapGetters([
-      'pencilColor'
+      'pencilColor',
+      'pencilSize'
     ], prefix),
     readableColor() {
       if (this.pencilColor.rgba) {
         const rgba = this.pencilColor.rgba
         return `<span style="color:red">${rgba.r}</span> <span style="color:green">${rgba.g}</span> <span style="color:blue">${rgba.b}</span> 𝞪=${rgba.a}`
       }
+    },
+    sizeRange() {
+      return _.range(1, 10)
+    },
+    readablePencilSize() {
+      return `${this.pencilSize} x ${this.pencilSize}`
     }
   },
 
   methods: {
     ...resourceMapActions([
-      'setPencilColor'
+      'setPencilColor',
+      'setPencilSize'
     ], prefix),
     handlePickClick() {
       this.show = true

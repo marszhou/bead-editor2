@@ -14,5 +14,6 @@ export const beadApp = resourceMaker([], [
   'setAltKey',
   'setMouseDown',
   'setMousePosition',
-  'setPencilColor'
+  'setPencilColor',
+  'setPencilSize'
 ], 'bead_app/')
