@@ -26,7 +26,8 @@ const state = {
 
   mousePosition: {x: 0, y: 0, column: 0, row: 0},
   pencilColor: {hex: '#000000'},
-  pencilSize: 1
+  pencilSize: 1,
+  eraserSize: 1
 }
 
 const getters = {
@@ -144,6 +145,15 @@ actions.setPencilSize = ({ commit }, v) => {
 }
 mutations[beadApp.setPencilSize] = (state, size) => {
   state.pencilSize = size
+}
+// --
+
+// -- setEraserSize
+actions.setEraserSize = ({ commit }, v) => {
+  commit(beadApp.setEraserSize, v)
+}
+mutations[beadApp.setEraserSize] = (state, size) => {
+  state.eraserSize = size
 }
 // --
 

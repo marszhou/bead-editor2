@@ -16,14 +16,26 @@
       <li class="list-group-item">
         笔触
         <div class="btn-group btn-group-xs">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            {{readablePencilSize}} <span class="caret"></span>
-          </button>
+          <a data-toggle='dropdown'>{{readablePencilSize}}</a>
           <ul class="dropdown-menu" role="menu">
             <li v-for='v of sizeRange' @click.prevent='setPencilSize(v)'>
               <a href="#" >
               {{v}} x {{v}}
-              <span class='glyphicon glyphicon-check pull-right' v-if='v === pencilSize' style='color: red'></span>
+              <i class='fa fa-check pull-right' aria-hidden="true" v-if='v === pencilSize' style='color: blueviolet'></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="list-group-item">
+        笔擦
+        <div class="btn-group btn-group-xs">
+          <a data-toggle='dropdown'>{{readableEraserSize}}</a>
+          <ul class="dropdown-menu" role="menu">
+            <li v-for='v of sizeRange' @click.prevent='setEraserSize(v)'>
+              <a href="#" >
+              {{v}} x {{v}}
+              <i class='fa fa-check pull-right' aria-hidden="true" v-if='v === eraserSize' style='color: blueviolet'></i>
               </a>
             </li>
           </ul>
@@ -59,7 +71,8 @@ export default {
   computed: {
     ...resourceMapGetters([
       'pencilColor',
-      'pencilSize'
+      'pencilSize',
+      'eraserSize'
     ], prefix),
     readableColor() {
       if (this.pencilColor.rgba) {
@@ -72,13 +85,17 @@ export default {
     },
     readablePencilSize() {
       return `${this.pencilSize} x ${this.pencilSize}`
+    },
+    readableEraserSize() {
+      return `${this.eraserSize} x ${this.eraserSize}`
     }
   },
 
   methods: {
     ...resourceMapActions([
       'setPencilColor',
-      'setPencilSize'
+      'setPencilSize',
+      'setEraserSize'
     ], prefix),
     handlePickClick() {
       this.show = true
