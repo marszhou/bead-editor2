@@ -4,7 +4,7 @@
       <h3 class="panel-title">颜色映射</h3>
     </div>
 
-    <ul class="list-group">
+    <ul class="list-group" style='overflow-y: auto; height: 300px'>
       <li class="list-group-item">
 
       </li>

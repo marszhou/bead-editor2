@@ -18,6 +18,12 @@
         :cursor='editorCursor'></editor>
     </div>
     <div class='col-xs-2' style='padding: 0;' :style='{width: rightColumnWidth + "px"}'>
+      <ul class="nav nav-tabs nav-tabs-xs" role="tablist" style='border-bottom: 0'>
+        <li role="presentation" class="active"><a href="#" style='padding: 3px 6px'><i class='fa fa-picture-o'></i></a></li>
+        <li role="presentation"><a href="#" style='padding: 3px 6px; color: #999'><i class='fa fa-wrench'></i></a></li>
+        <li role="presentation"><a href="#" style='padding: 3px 6px; color: #999'><i class='fa fa-bar-chart'></i></a></li>
+        <li role="presentation"><a href="#" style='padding: 3px 6px; color: #999'><i class='fa fa-window-restore'></i></a></li>
+      </ul>
       <info-panel :size='editorSize' :dimension='editorDimension'></info-panel>
       <toolbar-panel></toolbar-panel>
       <color-mapping-panel></color-mapping-panel>
