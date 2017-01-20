@@ -1,5 +1,5 @@
 <template>
-  <div class="side-panel panel panel-default" style='margin-bottom:0; position: relative'>
+  <div class="side-panel panel panel-default color-mapping-panel" style='margin-bottom:0; position: relative'>
     <div class="panel-heading">
       <h3 class="panel-title">颜色映射</h3>
     </div>

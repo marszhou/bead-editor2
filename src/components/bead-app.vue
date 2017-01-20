@@ -187,8 +187,6 @@ export default {
     handleWindowResize() {
       this.windowHeight = window.document.documentElement.clientHeight
       this.windowWidth = window.document.documentElement.clientWidth
-
-      console.log(this.windowWidth)
     },
 
     handleCanvasClick(e, cell) {

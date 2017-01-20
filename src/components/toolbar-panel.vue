@@ -1,5 +1,5 @@
 <template>
-  <div class="side-panel panel panel-default" style='margin-bottom:0; position: relative'>
+  <div class="side-panel panel panel-default toolbar-panel" style='margin-bottom:0; position: relative'>
     <div class="panel-heading">
       <h3 class="panel-title">工具设置</h3>
     </div>
@@ -16,12 +16,12 @@
       <li class="list-group-item">
         笔触
         <div class="btn-group btn-group-xs">
-          <a data-toggle='dropdown'>{{readablePencilSize}}</a>
+          <a data-toggle='dropdown' href='###'>{{readablePencilSize}}</a>
           <ul class="dropdown-menu" role="menu">
             <li v-for='v of sizeRange' @click.prevent='setPencilSize(v)'>
-              <a href="#" >
+              <a href="#">
               {{v}} x {{v}}
-              <i class='fa fa-check pull-right' aria-hidden="true" v-if='v === pencilSize' style='color: blueviolet'></i>
+              <i class='fa fa-circle pull-right' aria-hidden="true" v-if='v === pencilSize' style='color: gray'></i>
               </a>
             </li>
           </ul>
@@ -30,12 +30,12 @@
       <li class="list-group-item">
         笔擦
         <div class="btn-group btn-group-xs">
-          <a data-toggle='dropdown'>{{readableEraserSize}}</a>
+          <a data-toggle='dropdown' href='###'>{{readableEraserSize}}</a>
           <ul class="dropdown-menu" role="menu">
             <li v-for='v of sizeRange' @click.prevent='setEraserSize(v)'>
               <a href="#" >
               {{v}} x {{v}}
-              <i class='fa fa-check pull-right' aria-hidden="true" v-if='v === eraserSize' style='color: blueviolet'></i>
+              <i class='fa fa-circle pull-right' aria-hidden="true" v-if='v === eraserSize' style='color: gray'></i>
               </a>
             </li>
           </ul>

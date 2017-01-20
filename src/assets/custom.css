@@ -5,3 +5,9 @@
 .side-panel .panel-heading{
   border-radius: 0;
 }
+.layer-btn {
+  border-radius: 0!important;
+  box-shadow: none!important;
+  border: 0;
+  padding: 3 6;
+}

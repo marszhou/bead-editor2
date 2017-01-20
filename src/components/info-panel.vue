@@ -1,5 +1,5 @@
 <template>
-  <div class="side-panel panel panel-default" style='margin-bottom:0'>
+  <div class="side-panel panel panel-default info-panel" style='margin-bottom:0'>
     <div class="panel-heading">
       <h3 class="panel-title">画布设置</h3>
     </div>
