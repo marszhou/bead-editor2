@@ -55,7 +55,7 @@ const { prefix } = require('store/modules/bead-app')
 
 export default {
 
-  name: 'color-palette-panel',
+  name: 'toolbar-panel',
 
   components: {
     'color-picker': Chrome

@@ -20,6 +20,8 @@
     <div class='col-xs-2' style='padding: 0;' :style='{width: rightColumnWidth + "px"}'>
       <info-panel :size='editorSize' :dimension='editorDimension'></info-panel>
       <toolbar-panel></toolbar-panel>
+      <color-mapping-panel></color-mapping-panel>
+      <layers-panel></layers-panel>
     </div>
   </div>
 </div>
@@ -30,6 +32,8 @@ import Editor from 'components/editor/editor'
 import Toolbar from 'components/toolbar/toolbar'
 import InfoPanel from 'components/info-panel'
 import ToolbarPanel from 'components/toolbar-panel'
+import ColorMappingPanel from 'components/color-mapping-panel/color-mapping-panel'
+import LayersPanel from 'components/layers-panel/layers-panel'
 
 import {items as ToolbarItems} from 'components/toolbar/const'
 import { resourceMapGetters, resourceMapActions } from 'utils/func'
@@ -42,7 +46,9 @@ export default {
     Editor,
     Toolbar,
     InfoPanel,
-    ToolbarPanel
+    ToolbarPanel,
+    ColorMappingPanel,
+    LayersPanel
   },
 
   data() {

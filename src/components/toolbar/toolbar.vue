@@ -52,7 +52,7 @@ export default {
       }
     },
     handleItemDoubleClick(index) {
-      this.$emit('toolbar:itemDblclick')
+      this.$fire('toolbar:itemDblclick')
     },
 
     handleKeyDown(e) {
