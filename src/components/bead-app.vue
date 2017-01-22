@@ -18,16 +18,19 @@
         :cursor='editorCursor'></editor>
     </div>
     <div class='col-xs-2' style='padding: 0;' :style='{width: rightColumnWidth + "px"}'>
-      <ul class="nav nav-tabs nav-tabs-xs" role="tablist" style='border-bottom: 0'>
-        <li role="presentation" class="active"><a href="#" style='padding: 3px 6px'><i class='fa fa-picture-o'></i></a></li>
-        <li role="presentation"><a href="#" style='padding: 3px 6px; color: #999'><i class='fa fa-wrench'></i></a></li>
-        <li role="presentation"><a href="#" style='padding: 3px 6px; color: #999'><i class='fa fa-bar-chart'></i></a></li>
-        <li role="presentation"><a href="#" style='padding: 3px 6px; color: #999'><i class='fa fa-window-restore'></i></a></li>
+      <ul id='panel-tabs' class="nav nav-tabs nav-tabs-xs" role="tablist" style='border-bottom: 0'>
+        <li role="presentation" v-for='(item, index) of panels'
+            :class='index === currentPanelIndex ? "active" : ""'>
+          <a href="#" style='padding: 3px 6px;'
+             :class='index === currentPanelIndex ? "" : "panel-item"'
+             @click.prevent='handleChangePanel(index)'><i class='fa' :class='item.className'></i></a>
+        </li>
+
       </ul>
-      <info-panel :size='editorSize' :dimension='editorDimension'></info-panel>
-      <toolbar-panel></toolbar-panel>
-      <color-mapping-panel></color-mapping-panel>
-      <layers-panel></layers-panel>
+      <info-panel :size='editorSize' :dimension='editorDimension' v-if='currentPanelIndex === 0'></info-panel>
+      <toolbar-panel v-if='currentPanelIndex === 1'></toolbar-panel>
+      <color-mapping-panel v-if='currentPanelIndex === 2'></color-mapping-panel>
+      <layers-panel v-if='currentPanelIndex === 3'></layers-panel>
     </div>
   </div>
 </div>
@@ -64,7 +67,27 @@ export default {
       windowWidth: window.document.documentElement.clientWidth,
       windowHeight: window.document.documentElement.clientHeight,
       rightColumnWidth: 240,
-      leftMargin: 35
+      leftMargin: 35,
+
+      panels: [
+        {
+          name: 'canvas',
+          className: 'fa-picture-o'
+        },
+        {
+          name: 'toolbar',
+          className: 'fa-wrench'
+        },
+        {
+          name: 'color-mapping',
+          className: 'fa-superpowers'
+        },
+        {
+          name: 'layers',
+          className: 'fa-window-restore'
+        }
+      ],
+      currentPanelIndex: 0
     }
   },
 
@@ -216,6 +239,10 @@ export default {
       if (ToolbarItems[this.currentTool].name === 'hand' && this.mousedown) {
         this.moveEditorViewPort(pos)
       }
+    },
+
+    handleChangePanel(panelIndex) {
+      this.currentPanelIndex = panelIndex
     }
   },
 
@@ -242,4 +269,5 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.panel-item {color: #999;}
 </style>

@@ -74,13 +74,13 @@ export default {
     },
     handleResize() {
       let wHeight = window.document.documentElement.clientHeight
-      let ret = wHeight - $('.info-panel').get(0).getBoundingClientRect().height
-                        - $('.toolbar-panel').get(0).getBoundingClientRect().height
-                        - $('.color-mapping-panel').get(0).getBoundingClientRect().height
+      let ret = wHeight // - $('.info-panel').get(0).getBoundingClientRect().height
+                        // - $('.toolbar-panel').get(0).getBoundingClientRect().height
+                        // - $('.color-mapping-panel').get(0).getBoundingClientRect().height
+                        - $('#panel-tabs').get(0).getBoundingClientRect().height
                         - $('.layers-panel .panel-heading').get(0).getBoundingClientRect().height
                         - $('.layers-panel .btn-toolbar').get(0).getBoundingClientRect().height
       this.height = ret
-      console.log($('.info-panel').get(0).getBoundingClientRect().height, $('.toolbar-panel').get(0).getBoundingClientRect().height, $('.color-mapping-panel').get(0).getBoundingClientRect().height, $('.layers-panel .panel-heading').get(0).getBoundingClientRect().height, $('.layers-panel .btn-toolbar').get(0).getBoundingClientRect().height)
     }
   },
 

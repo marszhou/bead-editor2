@@ -1,10 +1,10 @@
 <template>
-  <div class="side-panel panel panel-default color-mapping-panel" style='margin-bottom:0; position: relative'>
+  <div class="color-mapping-panel side-panel panel panel-default color-mapping-panel" style='margin-bottom:0; position: relative'>
     <div class="panel-heading">
       <h3 class="panel-title">颜色映射</h3>
     </div>
 
-    <ul class="list-group" style='overflow-y: auto; height: 300px'>
+    <ul class="list-group" style='overflow-y: auto' :style='{height: height + "px"}'>
       <li class="list-group-item">
 
       </li>
@@ -25,8 +25,7 @@ export default {
 
   data() {
     return {
-      color: {hex: '#000000'},
-      show: false
+      height: 0
     };
   },
 
@@ -39,7 +38,29 @@ export default {
   methods: {
     ...resourceMapActions([
 
-    ], prefix)
+    ], prefix),
+
+    handleResize() {
+      let wHeight = window.document.documentElement.clientHeight
+      let ret = wHeight // - $('.info-panel').get(0).getBoundingClientRect().height
+                        // - $('.toolbar-panel').get(0).getBoundingClientRect().height
+                        // - $('.color-mapping-panel').get(0).getBoundingClientRect().height
+                        - $('#panel-tabs').get(0).getBoundingClientRect().height
+                        - $('.color-mapping-panel .panel-heading').get(0).getBoundingClientRect().height
+      this.height = ret
+    }
+  },
+
+  created() {
+    $(window).on('resize', this.handleResize)
+  },
+
+  mounted() {
+    this.$nextTick(this.handleResize)
+  },
+
+  beforeDestroy() {
+    $(window).off('resize', this.handleResize)
   }
 }
 </script>
