@@ -1,5 +1,5 @@
 import {beadApp} from '../mutation-types'
-import {resourceMapping, generateGetterCluster} from 'utils/func'
+import {resourceMapping, generateGetterCluster, uniqueKey} from 'utils/func'
 
 const prefix = 'beadApp_'
 const state = {
@@ -27,7 +27,9 @@ const state = {
   mousePosition: {x: 0, y: 0, column: 0, row: 0},
   pencilColor: {hex: '#000000'},
   pencilSize: 1,
-  eraserSize: 1
+  eraserSize: 1,
+
+  layers: []
 }
 
 const getters = {
@@ -154,6 +156,39 @@ actions.setEraserSize = ({ commit }, v) => {
 }
 mutations[beadApp.setEraserSize] = (state, size) => {
   state.eraserSize = size
+}
+// --
+
+// -- insertLayer
+actions.insertLayer = ({ commit }, position) => {
+  commit(beadApp.insertLayer, position)
+}
+mutations[beadApp.insertLayer] = (state, position) => {
+  state.layers.splice(position, 0, {
+    name: '未命名',
+    translation: {x: 0, y: 0},
+    data: [],
+    id: uniqueKey()
+  })
+}
+// --
+
+// -- removeLayer
+actions.removeLayer = ({ commit }, layerId) => {
+  commit(beadApp.removeLayer, layerId)
+}
+mutations[beadApp.removeLayer] = (state, layerId) => {
+  let index = _.findIndex(state.layers, {id: layerId})
+  state.layers.splice(index, 1)
+}
+// --
+
+// -- setLayers
+actions.setLayers = ({ commit }, layers) => {
+  commit(beadApp.setLayers, layers)
+}
+mutations[beadApp.setLayers] = (state, layers) => {
+  state.layers = layers
 }
 // --
 

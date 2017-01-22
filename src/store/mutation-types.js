@@ -16,5 +16,8 @@ export const beadApp = resourceMaker([], [
   'setMousePosition',
   'setPencilColor',
   'setPencilSize',
-  'setEraserSize'
+  'setEraserSize',
+  'insertLayer',
+  'removeLayer',
+  'setLayers'
 ], 'bead_app/')
