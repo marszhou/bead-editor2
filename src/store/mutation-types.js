@@ -19,5 +19,6 @@ export const beadApp = resourceMaker([], [
   'setEraserSize',
   'insertLayer',
   'removeLayer',
-  'setLayers'
+  'setLayers',
+  'setCurrentLayerIndex'
 ], 'bead_app/')

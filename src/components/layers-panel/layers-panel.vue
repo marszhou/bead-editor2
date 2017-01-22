@@ -5,9 +5,10 @@
     </div>
 
     <ul class="list-group" style='overflow-y: auto' :style='{height: height + "px"}'>
-      <li class="list-group-item" v-for='(layer, index) of layers'>
-        {{index}}
-
+      <li class="list-group-item layer" v-for='(layer, index) of layers'
+          @click='setCurrentLayerIndex(index)'
+          :class='{active: index === currentLayerIndex}'>
+        {{layer.id}}
       </li>
     </ul>
 
@@ -19,7 +20,7 @@
       </div> -->
 
       <div class="btn-group">
-        <button type="button" class="btn btn-default layer-btn" @click='handleCreate'>
+        <button type="button" class="btn btn-default layer-btn" @click='handleInsert'>
           +
         </button>
         <button type="button" class="btn btn-default layer-btn" @click='handleRemove'>
@@ -44,33 +45,31 @@ export default {
 
   data() {
     return {
-      layers: [{}],
-      currentLayer: 0,
       height: 0
     };
   },
 
   computed: {
     ...resourceMapGetters([
-
+      'layers',
+      'currentLayerIndex'
     ], prefix)
   },
 
   methods: {
     ...resourceMapActions([
-
+      'insertLayer',
+      'removeLayer',
+      'setCurrentLayerIndex'
     ], prefix),
-    genNewLayer() {
-      return {}
-    },
     handleRemove() {
-      if (this.currentLayer > -1) {
-        this.layers.splice(this.currentLayer, 1)
+      if (this.currentLayerIndex > -1) {
+        let layer = this.layers[this.currentLayerIndex]
+        this.removeLayer(layer.id)
       }
     },
-    handleCreate() {
-      let layer = this.genNewLayer()
-      this.layers.push(layer)
+    handleInsert() {
+      this.insertLayer(this.currentLayerIndex + 1)
     },
     handleResize() {
       let wHeight = window.document.documentElement.clientHeight

@@ -29,7 +29,8 @@ const state = {
   pencilSize: 1,
   eraserSize: 1,
 
-  layers: []
+  layers: [],
+  currentLayerIndex: -1
 }
 
 const getters = {
@@ -170,6 +171,8 @@ mutations[beadApp.insertLayer] = (state, position) => {
     data: [],
     id: uniqueKey()
   })
+
+  state.currentLayerIndex = position
 }
 // --
 
@@ -180,6 +183,7 @@ actions.removeLayer = ({ commit }, layerId) => {
 mutations[beadApp.removeLayer] = (state, layerId) => {
   let index = _.findIndex(state.layers, {id: layerId})
   state.layers.splice(index, 1)
+  state.currentLayerIndex = -1
 }
 // --
 
@@ -189,6 +193,15 @@ actions.setLayers = ({ commit }, layers) => {
 }
 mutations[beadApp.setLayers] = (state, layers) => {
   state.layers = layers
+}
+// --
+
+// -- setCurrentLayerIndex
+actions.setCurrentLayerIndex = ({ commit }, v) => {
+  commit(beadApp.setCurrentLayerIndex, v)
+}
+mutations[beadApp.setCurrentLayerIndex] = (state, v) => {
+  state.currentLayerIndex = v
 }
 // --
 
