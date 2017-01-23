@@ -7,9 +7,9 @@
     <ul class="list-group" style='overflow-y: auto' :style='{height: height + "px"}'>
       <draggable :list='fakeLayers' @change='handleSort'>
       <li class="list-group-item layer" v-for='(layer, index) of layers'
-          @click='setCurrentLayer(layer.id)'
+          @click='toggleCurrentLayer(layer.id)'
           :class='{active: layer.id === currentLayer}'>
-        {{layer.id}}
+        <layer :layer='layer'></layer>
       </li>
       </draggable>
     </ul>
@@ -23,10 +23,10 @@
 
       <div class="btn-group">
         <button type="button" class="btn btn-default layer-btn" @click='handleInsert'>
-          +
+          <i class='fa fa-plus'></i>
         </button>
-        <button type="button" class="btn btn-default layer-btn" @click='handleRemove'>
-          -
+        <button type="button" class="btn btn-default layer-btn" @click='handleRemove' :disabled="!!!currentLayer">
+          <i class='fa fa-trash-o'></i>
         </button>
 
       </div>
@@ -38,13 +38,15 @@
 import { resourceMapGetters, resourceMapActions } from 'utils/func'
 const { prefix } = require('store/modules/bead-app')
 import Draggable from 'vuedraggable'
+import Layer from './layer'
 
 export default {
 
   name: 'layers-panel',
 
   components: {
-    Draggable
+    Draggable,
+    Layer
   },
 
   data() {
@@ -69,7 +71,8 @@ export default {
       'insertLayer',
       'removeLayer',
       'setLayers',
-      'setCurrentLayer'
+      'setCurrentLayer',
+      'toggleCurrentLayer'
     ], prefix),
     handleRemove() {
       if (this.currentLayer) {
@@ -96,22 +99,6 @@ export default {
         let layer = layers.splice(e.moved.oldIndex, 1)
         layers.splice(e.moved.newIndex, 0, layer[0])
         this.setLayers(layers)
-
-        // let currentLayerIndex = this.currentLayerIndex
-        // debugger
-        // if (between(this.currentLayerIndex, e.moved.oldIndex, e.moved.newIndex)) {
-        //   if (e.moved.oldIndex < e.moved.newIndex) {
-        //     currentLayerIndex -= 1
-        //   } else {
-        //     currentLayerIndex += 1
-        //   }
-        // } else if (e.moved.oldIndex === this.currentLayerIndex) {
-        //   currentLayerIndex = e.moved.newIndex
-        // }
-
-        // if (currentLayerIndex !== this.currentLayerIndex) {
-        //   this.setCurrentLayerIndex(currentLayerIndex)
-        // }
       }
     }
   },

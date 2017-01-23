@@ -166,7 +166,7 @@ actions.insertLayer = ({ commit }, position) => {
   commit(beadApp.insertLayer, position)
 }
 mutations[beadApp.insertLayer] = (state, id) => {
-  let position = 0
+  let position = state.layers.length
   if (id) {
     position = _.findIndex(state.layers, {id}) + 1
   }
@@ -210,6 +210,19 @@ actions.setCurrentLayer = ({ commit }, v) => {
 }
 mutations[beadApp.setCurrentLayer] = (state, v) => {
   state.currentLayer = v
+}
+// --
+
+// -- toggleCurrentLayer
+actions.toggleCurrentLayer = ({ commit }, v) => {
+  commit(beadApp.toggleCurrentLayer, v)
+}
+mutations[beadApp.toggleCurrentLayer] = (state, v) => {
+  if (v === state.currentLayer) {
+    state.currentLayer = null
+  } else {
+    state.currentLayer = v
+  }
 }
 // --
 
