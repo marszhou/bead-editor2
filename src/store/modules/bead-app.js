@@ -30,7 +30,8 @@ const state = {
   eraserSize: 1,
 
   layers: [],
-  currentLayerIndex: -1
+  currentLayerIndex: -1,
+  currentLayer: null
 }
 
 const getters = {
@@ -164,15 +165,21 @@ mutations[beadApp.setEraserSize] = (state, size) => {
 actions.insertLayer = ({ commit }, position) => {
   commit(beadApp.insertLayer, position)
 }
-mutations[beadApp.insertLayer] = (state, position) => {
-  state.layers.splice(position, 0, {
+mutations[beadApp.insertLayer] = (state, id) => {
+  let position = 0
+  if (id) {
+    position = _.findIndex(state.layers, {id}) + 1
+  }
+  let newLayer = {
     name: '未命名',
     translation: {x: 0, y: 0},
     data: [],
     id: uniqueKey()
-  })
+  }
+  state.layers.splice(position, 0, newLayer)
 
-  state.currentLayerIndex = position
+  // state.currentLayerIndex = position
+  state.currentLayer = newLayer.id
 }
 // --
 
@@ -183,7 +190,8 @@ actions.removeLayer = ({ commit }, layerId) => {
 mutations[beadApp.removeLayer] = (state, layerId) => {
   let index = _.findIndex(state.layers, {id: layerId})
   state.layers.splice(index, 1)
-  state.currentLayerIndex = -1
+  // state.currentLayerIndex = -1
+  state.currentLayer = null
 }
 // --
 
@@ -196,12 +204,12 @@ mutations[beadApp.setLayers] = (state, layers) => {
 }
 // --
 
-// -- setCurrentLayerIndex
-actions.setCurrentLayerIndex = ({ commit }, v) => {
-  commit(beadApp.setCurrentLayerIndex, v)
+// -- setCurrentLayer
+actions.setCurrentLayer = ({ commit }, v) => {
+  commit(beadApp.setCurrentLayer, v)
 }
-mutations[beadApp.setCurrentLayerIndex] = (state, v) => {
-  state.currentLayerIndex = v
+mutations[beadApp.setCurrentLayer] = (state, v) => {
+  state.currentLayer = v
 }
 // --
 
