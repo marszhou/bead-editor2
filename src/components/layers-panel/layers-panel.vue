@@ -8,7 +8,7 @@
       <draggable :list='fakeLayers' @change='handleSort'>
       <li class="list-group-item layer" v-for='(layer, index) of layers'
           @click='toggleCurrentLayer(layer.id)'
-          :class='{active: layer.id === currentLayer}'>
+          :class='{highlight: layer.id === currentLayer}'>
         <layer :layer='layer'></layer>
       </li>
       </draggable>
@@ -95,7 +95,6 @@ export default {
     handleSort(e) {
       if (e.moved) {
         let layers = this.layers.slice()
-        // console.log(_.pluck(layers, 'id'))
         let layer = layers.splice(e.moved.oldIndex, 1)
         layers.splice(e.moved.newIndex, 0, layer[0])
         this.setLayers(layers)
@@ -118,4 +117,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.highlight {
+  background: #EEE;
+}
 </style>

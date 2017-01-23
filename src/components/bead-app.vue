@@ -87,7 +87,7 @@ export default {
           className: 'fa-window-restore'
         }
       ],
-      currentPanelIndex: 0
+      currentPanelIndex: 3
     }
   },
 

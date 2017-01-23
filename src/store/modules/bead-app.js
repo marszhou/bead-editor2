@@ -1,6 +1,26 @@
 import {beadApp} from '../mutation-types'
 import {resourceMapping, generateGetterCluster, uniqueKey} from 'utils/func'
 
+function genNewLayer() {
+  let newLayer = {
+    name: '未命名',
+    translation: {x: 0, y: 0},
+    data: [],
+    id: uniqueKey(),
+    status: {
+      visible: true,
+      only: false,
+      chain: false,
+      force: false
+    }
+  }
+  return newLayer
+}
+
+function copyLayer(layer) {
+
+}
+
 const prefix = 'beadApp_'
 const state = {
   currentTool: 1,
@@ -29,9 +49,13 @@ const state = {
   pencilSize: 1,
   eraserSize: 1,
 
-  layers: [],
+  layers: [
+    genNewLayer(),
+    genNewLayer()
+  ],
   currentLayerIndex: -1,
-  currentLayer: null
+  currentLayer: null,
+  onlyLayer: null
 }
 
 const getters = {
@@ -170,12 +194,7 @@ mutations[beadApp.insertLayer] = (state, id) => {
   if (id) {
     position = _.findIndex(state.layers, {id}) + 1
   }
-  let newLayer = {
-    name: '未命名',
-    translation: {x: 0, y: 0},
-    data: [],
-    id: uniqueKey()
-  }
+  let newLayer = genNewLayer()
   state.layers.splice(position, 0, newLayer)
 
   // state.currentLayerIndex = position
@@ -223,6 +242,27 @@ mutations[beadApp.toggleCurrentLayer] = (state, v) => {
   } else {
     state.currentLayer = v
   }
+}
+// --
+
+// -- toggleLayerStatus
+actions.toggleLayerStatus = ({ commit }, payload) => {
+  commit(beadApp.toggleLayerStatus, payload)
+}
+mutations[beadApp.toggleLayerStatus] = (state, { status, id }) => {
+  let layer = _.find(state.layers, {id})
+  if (layer) {
+    layer.status[status] = !layer.status[status]
+  }
+}
+// --
+
+// -- copyLayer
+actions.copyLayer = ({ commit }, payload) => {
+  commit(beadApp.copyLayer, payload)
+}
+mutations[beadApp.copyLayer] = (state, { status, id }) => {
+
 }
 // --
 
