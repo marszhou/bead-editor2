@@ -168,6 +168,7 @@ export default {
       currentZoom = currentZoom > this.editorZoomMax ? this.editorZoomMax: (currentZoom < this.editorZoomMin ? this.editorZoomMin : currentZoom)
       this.setEditorZoom(currentZoom)
 
+      // debugger
       let x = this.calculateNewViewPortRange(currentZoom, cell.x, this.editorViewPort.x1, this.editorViewPort.x2, this.editorSize.columns, this.editorInnerSize.width)
       let y = this.calculateNewViewPortRange(currentZoom, cell.y, this.editorViewPort.y1, this.editorViewPort.y2, this.editorSize.rows, this.editorInnerSize.height)
       let newViewPort = {
@@ -176,6 +177,7 @@ export default {
         y1: y[0],
         y2: y[1]
       }
+      // console.log(newViewPort)
       this.setEditorViewPort(newViewPort)
     },
 
@@ -189,6 +191,18 @@ export default {
       let a1 = c - w1 / (this.editorUnitWidth * newZoom)
       let w2 = (v2 - c) / (v2 - v1) * l
       let a2 = c + w2 / (this.editorUnitWidth * newZoom)
+
+      if (a1 < 0) {
+        let temp = a1
+        a1 = 0
+        a2 += -temp
+      }
+
+      if (a2 > t) {
+        let temp = a2
+        a2 = t
+        a1 -= (temp - t)
+      }
 
       return [a1, a2]
     },
