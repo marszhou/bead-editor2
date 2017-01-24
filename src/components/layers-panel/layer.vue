@@ -5,18 +5,12 @@
     </div>
     <div class='col-xs-9'>
       <a href='#' @click.prevent.stop style='line-height: 1.8em; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width: 140px; display: inline-block'>{{layer.name}}</a><br/>
-      <div class="btn-group btn-group-xs">
+      <div class="btn-group btn-group-xs" @click.stop>
         <button type="button"
                 class="btn btn-default"
                 @click.stop='toggleLayerStatus({status: "visible", id: layer.id})'
                 :disabled='!!onlyLayer'>
           <i class='fa' :class='layer.status.visible ? "fa-eye" : "fa-eye-slash"'></i>
-        </button>
-
-        <button type="button"
-                class="btn btn-default"
-                @click.stop='toggleLayerStatus({status: "chain", id: layer.id})'>
-          <i class='fa' :class='layer.status.chain ? "fa-link" : "fa-unlink"'></i>
         </button>
 
         <button type="button"
@@ -31,6 +25,13 @@
                 @click.stop='toggleLayerStatus({status: "force", id: layer.id})'
                 :disabled='(!onlyLayer || (onlyLayer && onlyLayer===layer.id))'>
           <i class='fa' :class='layer.status.force ? "fa-toggle-on" : "fa-toggle-off"'></i>
+        </button>
+
+        <button type="button"
+                class="btn btn-default"
+                @click.stop='chainLayer(layer.id)'
+                :disabled='isChainDisabled(layer.id)'>
+          <i class='fa' :class='getChainClassName(layer.id)'></i>
         </button>
 
         <button type="button"
@@ -57,15 +58,33 @@ export default {
 
   computed: {
     ...resourceMapGetters([
-      'onlyLayer'
+      'onlyLayer',
+      'currentLayer',
+      'chainStatuses'
     ], prefix)
   },
 
   methods: {
     ...resourceMapActions([
       'copyLayer',
+      'chainLayer',
       'toggleLayerStatus'
     ], prefix),
+
+    isChainDisabled(layerId) {
+      if (!this.currentLayer) {
+        return true
+      } else {
+        if (this.currentLayer === layerId) {
+          return true
+        }
+      }
+      return false
+    },
+
+    getChainClassName(layerId) {
+      return this.chainStatuses[layerId] ? 'fa-link' : 'fa-unlink'
+    }
   },
 
   data() {

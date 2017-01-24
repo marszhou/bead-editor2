@@ -35,7 +35,8 @@ const state = {
   ],
   currentLayerIndex: -1,
   currentLayer: null,
-  onlyLayer: null
+  onlyLayer: null,
+  chains: []
 }
 
 const getters = {
@@ -175,7 +176,6 @@ function genNewLayer() {
     status: {
       visible: true,
       only: false,
-      chain: false,
       force: false
     }
   }
@@ -284,6 +284,50 @@ mutations[beadApp.toggleLayerStatus] = (state, { status, id }) => {
     }
     layer.status[status] = v
   }
+}
+// --
+
+// -- chainLayer
+getters.chainStatuses = (state) => {
+  return _.reduce(state.layers, (ret, layer) => {
+    if (layer.id === state.currentLayer) {
+      ret[layer.id] = true
+    } else {
+      let chain = _.find(state.chains, layers => layers.indexOf(state.currentLayer) > -1)
+      ret[layer.id] = chain ? chain.indexOf(layer.id) > -1 : false
+    }
+    return ret
+  }, {})
+}
+actions.chainLayer = ({ commit }, layerId) => {
+  commit(beadApp.chainLayer, layerId)
+}
+mutations[beadApp.chainLayer] = (state, layerId) => {
+  let chain = _.find(state.chains, layers => {
+    return layers.indexOf(state.currentLayer) > -1
+  })
+  if (!chain) { // 链不存在，新建一个
+    chain = [state.currentLayer]
+    state.chains.push(chain)
+  }
+
+  // 检查目前layer是否处于其他chain中间，如果是，去掉它
+  let chain2 = _.find(state.chains, layers => {
+    return layers.indexOf(layerId)
+  })
+  if (chain2 && chain !== chain2) {
+    _.pull(chain2, layerId)
+  }
+
+  let layerIndex = chain.indexOf(layerId)
+  if (layerIndex > -1) {
+    chain.splice(layerIndex, 1)
+  } else {
+    chain.push(layerId)
+  }
+
+  // 只有一个层，把链删掉
+  state.chains = state.chains.filter(c => c.length > 1)
 }
 // --
 

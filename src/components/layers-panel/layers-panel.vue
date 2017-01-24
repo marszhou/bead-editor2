@@ -9,7 +9,7 @@
       <li class="list-group-item layer"
           v-for='(layer, index) of layers'
           @click='toggleCurrentLayer(layer.id)'
-          :class='{highlight: layer.id === currentLayer, "layer-invisible": !isLayerVisible(layer)}'>
+          :class='{highlight: layer.id === currentLayer, "layer-invisible": !isLayerVisible(layer), "layer-chained": chainStatuses[layer.id]}'>
         <layer :layer='layer'></layer>
       </li>
       </draggable>
@@ -60,7 +60,8 @@ export default {
     ...resourceMapGetters([
       'layers',
       'currentLayer',
-      'onlyLayer'
+      'onlyLayer',
+      'chainStatuses'
     ], prefix),
 
     fakeLayers() {
@@ -130,9 +131,12 @@ export default {
 
 <style lang="css" scoped>
 .highlight {
-  background: #EEE;
+  background: #DDD!important;
 }
 .layer-invisible {
   opacity: 0.5
+}
+.layer-chained {
+  background: AliceBlue;
 }
 </style>
