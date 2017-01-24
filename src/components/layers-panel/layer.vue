@@ -20,14 +20,16 @@
 
         <button type="button"
                 class="btn btn-default"
-                @click.stop='toggleLayerStatus({status: "only", id: layer.id})'>
-          <i class='fa' :class='layer.status.only ? "fa-lock" : "fa-unlock"'></i>
+                @click.stop='toggleLayerStatus({status: "only", id: layer.id})'
+                :disabled='!!(onlyLayer && !(onlyLayer && onlyLayer===layer.id))'>
+          <i class='fa' :class='layer.status.only ? "fa-star" : "fa-star-o"'></i>
         </button>
 
         <button type="button"
                 class="btn btn-default"
-                @click.stop='toggleLayerStatus({status: "force", id: layer.id})'>
-          <i class='fa' :class='layer.status.force ? "fa-star" : "fa-star-o"'></i>
+                @click.stop='toggleLayerStatus({status: "force", id: layer.id})'
+                :disabled='(!onlyLayer || (onlyLayer && onlyLayer===layer.id))'>
+          <i class='fa' :class='layer.status.force ? "fa-toggle-on" : "fa-toggle-off"'></i>
         </button>
 
         <button type="button"
@@ -55,7 +57,7 @@ export default {
   computed: {
     ...resourceMapGetters([
       'onlyLayer'
-    ])
+    ], prefix)
   },
 
   methods: {

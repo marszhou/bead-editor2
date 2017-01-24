@@ -227,6 +227,12 @@ mutations[beadApp.removeLayer] = (state, layerId) => {
   state.layers.splice(index, 1)
   // state.currentLayerIndex = -1
   state.currentLayer = null
+  if (layerId === state.onlyLayer) {
+    state.onlyLayer = null
+    state.layers.forEach(layer => {
+      layer.status.force = false
+    })
+  }
 }
 // --
 
@@ -268,7 +274,15 @@ actions.toggleLayerStatus = ({ commit }, payload) => {
 mutations[beadApp.toggleLayerStatus] = (state, { status, id }) => {
   let layer = _.find(state.layers, {id})
   if (layer) {
-    layer.status[status] = !layer.status[status]
+    let v = !layer.status[status]
+
+    if (status === 'only') {
+      state.onlyLayer = v ? id : null
+      state.layers.forEach(layer => {
+        layer.status.force = false
+      })
+    }
+    layer.status[status] = v
   }
 }
 // --
