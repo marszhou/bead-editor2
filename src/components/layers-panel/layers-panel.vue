@@ -6,9 +6,10 @@
 
     <ul class="list-group" style='overflow-y: auto' :style='{height: height + "px"}'>
       <draggable :list='fakeLayers' @change='handleSort'>
-      <li class="list-group-item layer" v-for='(layer, index) of layers'
+      <li class="list-group-item layer"
+          v-for='(layer, index) of layers'
           @click='toggleCurrentLayer(layer.id)'
-          :class='{highlight: layer.id === currentLayer}'>
+          :class='{highlight: layer.id === currentLayer, "layer-invisible": !isLayerVisible(layer)}'>
         <layer :layer='layer'></layer>
       </li>
       </draggable>
@@ -58,7 +59,8 @@ export default {
   computed: {
     ...resourceMapGetters([
       'layers',
-      'currentLayer'
+      'currentLayer',
+      'onlyLayer'
     ], prefix),
 
     fakeLayers() {
@@ -74,6 +76,16 @@ export default {
       'setCurrentLayer',
       'toggleCurrentLayer'
     ], prefix),
+    isLayerVisible(layer) {
+      if (this.onlyLayer) {
+        if (this.onlyLayer === layer.id) {
+          return true
+        } else {
+          return layer.status.force
+        }
+      }
+      return layer.status.visible
+    },
     handleRemove() {
       if (this.currentLayer) {
         this.removeLayer(this.currentLayer)
@@ -119,5 +131,8 @@ export default {
 <style lang="css" scoped>
 .highlight {
   background: #EEE;
+}
+.layer-invisible {
+  opacity: 0.5
 }
 </style>

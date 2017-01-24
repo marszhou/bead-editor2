@@ -8,7 +8,8 @@
       <div class="btn-group btn-group-xs">
         <button type="button"
                 class="btn btn-default"
-                @click.stop='toggleLayerStatus({status: "visible", id: layer.id})'>
+                @click.stop='toggleLayerStatus({status: "visible", id: layer.id})'
+                :disabled='!!onlyLayer'>
           <i class='fa' :class='layer.status.visible ? "fa-eye" : "fa-eye-slash"'></i>
         </button>
 
