@@ -331,6 +331,18 @@ mutations[beadApp.chainLayer] = (state, layerId) => {
 }
 // --
 
+// -- updateLayer
+actions.updateLayer = ({ commit }, payload) => {
+  commit(beadApp.updateLayer, payload)
+}
+mutations[beadApp.updateLayer] = (state, {id, data}) => {
+  let layer = _.find(state.layers, {id})
+  if (layer) {
+    _.assign(layer, data)
+  }
+}
+// --
+
 module.exports = {
   state,
   getters: resourceMapping(getters, prefix),

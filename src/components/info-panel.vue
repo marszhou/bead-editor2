@@ -8,7 +8,7 @@
       <li class="list-group-item">
         <!-- <button class='edit-btn btn btn-default'>修改</button> -->
         尺寸
-        <bs-dialog title='hey' dialog-id='size-dialog' @dialog:btn-click='handleSizeDialogButton'>
+        <bs-dialog title='尺寸设置' dialog-id='size-dialog' @dialog:btn-click='handleSizeDialogButton'>
           <a href='#' @click.prevent
                   slot='trigger'>
             <span>{{size.columns}}</span> x <span>{{size.rows}}</span>
@@ -18,13 +18,13 @@
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-addon">列</div>
-                  <input type="number" class="form-control" v-model='columns' @keydown.stop>
+                  <input type="number" class="form-control" v-model='columns' @keydown.stop @keyup.stop @keypress.stop>
                 </div>
               </div>
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-addon">行</div>
-                  <input type="number" class="form-control" v-model='rows' @keydown.stop>
+                  <input type="number" class="form-control" v-model='rows' @keydown.stop @keyup.stop @keypress.stop>
                 </div>
               </div>
             </form>
@@ -34,7 +34,7 @@
       <li class="list-group-item">
         <!-- <button class='edit-btn btn btn-default'>修改</button> -->
         宽高
-        <bs-dialog title='hey' dialog-id='dimension-dialog' @dialog:btn-click='handleDimensionDialogButton'>
+        <bs-dialog title='宽高设置' dialog-id='dimension-dialog' @dialog:btn-click='handleDimensionDialogButton'>
           <a href='#' @click.prevent
                   slot='trigger'>
             <span>{{dimension.width}}</span> x <span>{{dimension.height}}</span>
@@ -44,13 +44,13 @@
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-addon">宽</div>
-                  <input type="number" class="form-control" v-model='width' @keydown.stop>
+                  <input type="number" class="form-control" v-model='width' @keydown.stop @keyup.stop @keypress.stop>
                 </div>
               </div>
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-addon">高</div>
-                  <input type="number" class="form-control" v-model='height' @keydown.stop>
+                  <input type="number" class="form-control" v-model='height' @keydown.stop @keyup.stop @keypress.stop>
                 </div>
               </div>
             </form>

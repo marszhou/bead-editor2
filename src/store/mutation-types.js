@@ -24,5 +24,6 @@ export const beadApp = resourceMaker([], [
   'toggleCurrentLayer',
   'toggleLayerStatus',
   'copyLayer',
-  'chainLayer'
+  'chainLayer',
+  'updateLayer'
 ], 'bead_app/')

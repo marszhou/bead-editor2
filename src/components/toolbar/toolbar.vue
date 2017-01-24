@@ -12,7 +12,7 @@
 <script>
 import Item from './item'
 import {items} from './const'
-import { resourceMapActions } from 'utils/func'
+import { resourceMapActions, resourceMapGetters } from 'utils/func'
 const { prefix } = require('store/modules/bead-app')
 
 export default {
@@ -37,7 +37,9 @@ export default {
   },
 
   computed: {
-
+    ...resourceMapGetters([
+      'altKey'
+    ], prefix)
   },
 
   methods: {
@@ -68,7 +70,7 @@ export default {
     },
     handleKeyUp(e) {
       // console.log('keyup')
-      if (!e.altKey) {
+      if (!e.altKey && this.altKey) {
         this.setAltKey(false)
       }
       $(window).off('keyup', this.handleKeyUp)
