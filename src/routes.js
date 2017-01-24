@@ -14,6 +14,11 @@ const routes = [
     name: 'home'
   },
   {
+    path: '/beads-editor2',
+    component: Home,
+    name: 'home2'
+  },
+  {
     path: '/foo',
     component: Foo,
     name: 'foo',
@@ -24,6 +29,10 @@ const routes = [
         name: 'bar'
       }
     ]
+  },
+  {
+    path: '*',
+    redirect: '/beads-editor2'
   }
 ]
 
@@ -36,6 +45,14 @@ module.exports = (store) => {
     linkActiveClass: 'current',
     routes: routes
   })
+
+  // router.alias({
+  //   '/beads-editor2': '/'
+  // })
+
+  // router.redirect({
+  //   '*': '/beads-editor2'
+  // })
 
   router.beforeEach((to, from, next) => {
     next()

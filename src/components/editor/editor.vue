@@ -13,7 +13,7 @@
       </clipPath>
       <pattern id="transparentBackground" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
         <image width="20" height="20"
-               xlink:href="static/assets/t.png"/>
+               xlink:href="./static/assets/t.png"/>
       </pattern>
     </defs>
     <axis type='horizontal'

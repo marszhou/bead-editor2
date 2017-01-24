@@ -69,9 +69,6 @@
 </template>
 
 <script>
-require('assets/font-awesome-4.7.0/css/font-awesome.min.css')
-require('assets/custom.css')
-
 import Dialog from 'components/common/dialog'
 import { resourceMapGetters, resourceMapActions } from 'utils/func'
 const { prefix } = require('store/modules/bead-app')

@@ -4,6 +4,8 @@ import eventHub from './event-hub'
 
 require('bootstrap/dist/css/bootstrap.css')
 require('bootstrap/dist/js/bootstrap.js')
+// require('assets/font-awesome-4.7.0/css/font-awesome.min.css')
+require('assets/custom.css')
 
 import {timeDisplay, percent} from 'utils/func'
 Vue.filter('translate', (v) => `translate(${v})`)

@@ -6,6 +6,7 @@ var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var CopyWebpackPlugin = require('copy-webpack-plugin')
 var env = config.build.env
 
 var webpackConfig = merge(baseWebpackConfig, {
@@ -42,7 +43,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: config.build.index,
-      template: 'index.html',
+      template: 'src/index.html',
       inject: true,
       minify: {
         removeComments: true,
@@ -73,7 +74,17 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       chunks: ['vendor']
-    })
+    }),
+    new CopyWebpackPlugin([
+      {
+        context: path.resolve(__dirname, '../src'),
+        from: {
+          glob: 'assets/**/*',
+          dot: true
+        },
+        to: 'static'
+      }
+    ])
   ]
 })
 
