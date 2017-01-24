@@ -41,6 +41,7 @@
                      id="title"
                      placeholder="层名称"
                      v-model='editLayer.name'
+                     ref='input'
                      @keydown.stop @keyup.stop @keypress.stop>
             </div>
           </div>
@@ -150,6 +151,7 @@ export default {
       this.editLayer.id = layer.id
       this.editLayer.name = layer.name
       this.$refs.dialog.show()
+      this.$nextTick(() => this.$refs.input.focus())
     }
   },
 
