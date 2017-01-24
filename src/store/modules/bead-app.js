@@ -1,26 +1,6 @@
 import {beadApp} from '../mutation-types'
 import {resourceMapping, generateGetterCluster, uniqueKey} from 'utils/func'
 
-function genNewLayer() {
-  let newLayer = {
-    name: '未命名',
-    translation: {x: 0, y: 0},
-    data: [],
-    id: uniqueKey(),
-    status: {
-      visible: true,
-      only: false,
-      chain: false,
-      force: false
-    }
-  }
-  return newLayer
-}
-
-function copyLayer(layer) {
-
-}
-
 const prefix = 'beadApp_'
 const state = {
   currentTool: 1,
@@ -186,6 +166,21 @@ mutations[beadApp.setEraserSize] = (state, size) => {
 // --
 
 // -- insertLayer
+function genNewLayer() {
+  let newLayer = {
+    name: '未命名',
+    translation: {x: 0, y: 0},
+    data: [],
+    id: uniqueKey(),
+    status: {
+      visible: true,
+      only: false,
+      chain: false,
+      force: false
+    }
+  }
+  return newLayer
+}
 actions.insertLayer = ({ commit }, position) => {
   commit(beadApp.insertLayer, position)
 }
@@ -199,6 +194,27 @@ mutations[beadApp.insertLayer] = (state, id) => {
 
   // state.currentLayerIndex = position
   state.currentLayer = newLayer.id
+}
+// --
+
+// -- copyLayer
+function genCopyLayer(layer) {
+  let newLayer = genNewLayer()
+  newLayer.data = _.cloneDeep(layer.data)
+  newLayer.name = layer.name + ' 副本'
+  return newLayer
+}
+actions.copyLayer = ({ commit }, payload) => {
+  commit(beadApp.copyLayer, payload)
+}
+mutations[beadApp.copyLayer] = (state, id) => {
+  let layer = _.find(state.layers, {id})
+  if (layer) {
+    let newLayer = genCopyLayer(layer)
+    let position = _.findIndex(state.layers, {id}) + 1
+    state.layers.splice(position, 0, newLayer)
+    state.currentLayer = newLayer.id
+  }
 }
 // --
 
@@ -254,15 +270,6 @@ mutations[beadApp.toggleLayerStatus] = (state, { status, id }) => {
   if (layer) {
     layer.status[status] = !layer.status[status]
   }
-}
-// --
-
-// -- copyLayer
-actions.copyLayer = ({ commit }, payload) => {
-  commit(beadApp.copyLayer, payload)
-}
-mutations[beadApp.copyLayer] = (state, { status, id }) => {
-
 }
 // --
 

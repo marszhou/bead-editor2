@@ -4,7 +4,7 @@
       <svg class='preview'></svg>
     </div>
     <div class='col-xs-9'>
-      <a href='#' @click.prevent.stop style='line-height: 1.8em'>{{layer.name}}</a><br/>
+      <a href='#' @click.prevent.stop style='line-height: 1.8em; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width: 140px; display: inline-block'>{{layer.name}}</a><br/>
       <div class="btn-group btn-group-xs">
         <button type="button"
                 class="btn btn-default"
