@@ -6,24 +6,33 @@
        ref='canvas'
        @click='handleClick'
        @mousedown='handleMouseDown'
-       @mousemove='handleMouseMove'>
+       @mousemove='handleMouseMove'
+       @mouseleave='handleMouseOut'
+       @mouseenter='handleMouseIn'>
       <!-- <rect :width='columns * cellWidth' :height='rows * cellWidth' fill='url(#transparentBackground)'></rect> -->
       <!-- layers -->
       <grid :columns='columns' :rows='rows' :cell-width='cellWidth' :show-line='true' :show-dot='true'></grid>
+      <indicator :position='indicatorPosition'
+                 :size='indicatorSize'
+                 :color='indicatorColor'
+                 v-if='indicatorVisible'></indicator>
     </g>
   </g>
 </template>
 
 <script>
 import Grid from './grid'
-import { resourceMapActions } from 'utils/func'
+import Indicator from './indicator'
+import { resourceMapActions, resourceMapGetters } from 'utils/func'
+import {items as ToolbarItems} from 'components/toolbar/const'
 const { prefix } = require('store/modules/bead-app')
 
 export default {
   name: 'b-canvas',
 
   components: {
-    Grid
+    Grid,
+    Indicator
   },
 
   props: {
@@ -47,14 +56,71 @@ export default {
     }
   },
 
+  computed: {
+    ...resourceMapGetters([
+      'mousePosition',
+      'pencilColor',
+      'pencilSize',
+      'eraserSize',
+      'currentTool',
+      'mouseInCanvas',
+      'currentLayer'
+    ], prefix),
+
+    indicatorColor() {
+      switch (ToolbarItems[this.currentTool].name) {
+        case 'pen':
+          return this.pencilColor
+        case 'eraser':
+          return {hex: '#000000'}
+      }
+    },
+
+    indicatorSize() {
+      switch (ToolbarItems[this.currentTool].name) {
+        case 'pen':
+          return this.pencilSize * this.cellWidth
+        case 'eraser':
+          return this.eraserSize * this.cellWidth
+      }
+    },
+
+    indicatorPosition() {
+      let size = 1
+      switch (ToolbarItems[this.currentTool].name) {
+        case 'pen':
+          size = this.pencilSize
+          break
+        case 'eraser':
+          size = this.eraserSize
+          break
+      }
+      return {
+        x: (this.mousePosition.column - Math.floor((size-1) / 2)) * this.cellWidth,
+        y: (this.mousePosition.row - Math.floor((size-1) / 2)) * this.cellWidth
+      }
+    },
+
+    indicatorVisible() {
+      if (!this.mouseInCanvas) return false
+      if (!this.currentLayer) return false
+      switch (ToolbarItems[this.currentTool].name) {
+        case 'pen':
+        case 'eraser':
+          return true
+        default:
+          return false
+      }
+    }
+  },
+
   methods: {
     ...resourceMapActions([
       'setMouseDown',
-      'setMousePosition'
+      'setMousePosition',
+      'toggleMouseInOut'
     ], prefix),
-    getTranslate(x, y) {
-      return `translate(${x}, ${y})`
-    },
+
     getPosition(e) {
       let canvasPosition = $(this.$refs.canvas).position()
       let x = e.pageX - canvasPosition.left
@@ -106,7 +172,17 @@ export default {
       let y = e.y - rect.top
       let column = Math.floor(x / this.cellWidth)
       let row = Math.floor(y / this.cellWidth)
-      this.setMousePosition({x, y, column, row})
+      let p = {x, y, column, row}
+      // console.log(p)
+      this.setMousePosition(p)
+    },
+    handleMouseOut() {
+      console.log('out', arguments)
+      this.toggleMouseInOut(false)
+    },
+    handleMouseIn() {
+      console.log('in', arguments)
+      this.toggleMouseInOut(true)
     }
   },
 

@@ -23,6 +23,7 @@ const state = {
   mousedown: false,
   mousedownPosition: null,
   mousedownViewPort: null,
+  mouseInCanvas: false,
 
   mousePosition: {x: 0, y: 0, column: 0, row: 0},
   pencilColor: {hex: '#000000'},
@@ -185,9 +186,9 @@ actions.insertLayer = ({ commit }, position) => {
   commit(beadApp.insertLayer, position)
 }
 mutations[beadApp.insertLayer] = (state, id) => {
-  let position = state.layers.length
+  let position = 0 // state.layers.length
   if (id) {
-    position = _.findIndex(state.layers, {id}) + 1
+    position = _.findIndex(state.layers, {id}) // + 1
   }
   let newLayer = genNewLayer()
   state.layers.splice(position, 0, newLayer)
@@ -211,7 +212,7 @@ mutations[beadApp.copyLayer] = (state, id) => {
   let layer = _.find(state.layers, {id})
   if (layer) {
     let newLayer = genCopyLayer(layer)
-    let position = _.findIndex(state.layers, {id}) + 1
+    let position = _.findIndex(state.layers, {id}) // + 1
     state.layers.splice(position, 0, newLayer)
     state.currentLayer = newLayer.id
   }
@@ -340,6 +341,15 @@ mutations[beadApp.updateLayer] = (state, {id, data}) => {
   if (layer) {
     _.assign(layer, data)
   }
+}
+// --
+
+// -- toggleMouseInOut
+actions.toggleMouseInOut = ({ commit }, payload) => {
+  commit(beadApp.toggleMouseInOut, payload)
+}
+mutations[beadApp.toggleMouseInOut] = (state, v) => {
+  state.mouseInCanvas = v
 }
 // --
 

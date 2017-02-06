@@ -29,6 +29,9 @@ Vue.mixin({
         this.$eventStack = []
         this.$eventStack.push({name: eventName, handler: func})
       }
+    },
+    getTranslate(x, y) {
+      return `translate(${x}, ${y})`
     }
   },
   beforeDestroy() {

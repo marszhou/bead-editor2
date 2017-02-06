@@ -83,9 +83,9 @@ export default {
   },
 
   methods: {
-    getTranslate(x, y) {
-      return `translate(${x}, ${y})`
-    },
+    // getTranslate(x, y) {
+    //   return `translate(${x}, ${y})`
+    // },
     getClipPath(type) {
       return type==='horizontal' ? 'url(#xAxisMask)' : 'url(#yAxisMask)'
     },

@@ -1,6 +1,6 @@
 export const items = [
   {
-    icon: 'fa-mouse-pointer', name: 'pointer', hotKey: 'v', code: '\uf245', tips: '指针(V)',
+    icon: 'fa-mouse-pointer', name: 'pointer', hotKey: 's', code: '\uf245', tips: '选择(S)',
     cursor: 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAwElEQVQ4T5XSP2oCQRQH4G8bsfEsFmJrLpHSwkKbgJUScgdJE7BLSBPwBBaW8QYiVrYWYpsiKWVhJYvMzs5ONX/e+/gxvMz/WqGDR/yV7qPbrPT6hinWTZAQkJvJSBWQjMSAJKQOqEVSgCiSClQiTYAg0hTIkTleb/OTCozwixb22DUBftDDMTTTVQkmeMCwaFrguQ5Y4gljfGCA76Lpgi7O90g5wQtO+CqK2tiiX5zzVO8xIJQw/7xPbDDD4b7oCmIJMhEKFfl2AAAAAElFTkSuQmCC"), auto'
   },
 
@@ -14,12 +14,12 @@ export const items = [
 
   {
     icon: 'fa-pencil', name: 'pen', hotKey: 'p', code: '\uf040', tips: '画笔(P)',
-    cursor: 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA2klEQVQ4T6XTMUoDQRiG4WcRrdKbNlewsLHKMewC1iZipeAJRCzEpEoTbGwCAQ9goZAuhwnBwkJkJAs/Yza7IdNN8b7fN/PPFPZcxQ78KR7xgFnJNRWc4TOEneM17ZsIOrhCP2v7J6kTlMnP+MZ1kHygu02Q184l97ipEuRwGZwkLawwwM8mQQ4vcBKq9zCpmkIdnGrfpuRNgp3hOMaqM5dB/5Jjg3QP6VF84Q3TbN6VcGwwxDHu0Mb7WrIVjoInXGKEOV5QC0fBGBeheiM4Co5wuBYcYNn0l/4CjcEyFV8I/vIAAAAASUVORK5CYII="), auto'
+    cursor: 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA2klEQVQ4T6XTMUoDQRiG4WcRrdKbNlewsLHKMewC1iZipeAJRCzEpEoTbGwCAQ9goZAuhwnBwkJkJAs/Yza7IdNN8b7fN/PPFPZcxQ78KR7xgFnJNRWc4TOEneM17ZsIOrhCP2v7J6kTlMnP+MZ1kHygu02Q184l97ipEuRwGZwkLawwwM8mQQ4vcBKq9zCpmkIdnGrfpuRNgp3hOMaqM5dB/5Jjg3QP6VF84Q3TbN6VcGwwxDHu0Mb7WrIVjoInXGKEOV5QC0fBGBeheiM4Co5wuBYcYNn0l/4CjcEyFV8I/vIAAAAASUVORK5CYII=") 0 32, auto'
   },
 
   {
     icon: 'fa-eraser', name: 'eraser', hotKey: 'e', code: '\uf12d', tips: '橡皮(E)',
-    cursor: 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA50lEQVQ4T6XToUtDURTH8c8EwbpislgFkyzYDOsixtksBu37D4SBUW3CEAzC9ge4YjAMhsWo1aDdpOLkglcel713H7zTLvf8vud3zrm3pWG0GurlAJs4x0dJoZ8qwBoesVrlsgzQxgM2ci0uAizjDjs5MY5TQDhf4KiGeIB+CujjtIb4Fj18FwEHuK4hfsZW3EwEdDHBGW4Q5hDjE+sY4RUdvMXLAAi7fsK/rcTFEobY/av8UrwPgHfMsIevRFwc6jamaYshYY5L3GOlkBBgQXSCfYwXzSc6qHpth7gqG27uL2SX0hjwC6NKJS9S0OoxAAAAAElFTkSuQmCC"), auto'
+    cursor: 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA50lEQVQ4T6XToUtDURTH8c8EwbpislgFkyzYDOsixtksBu37D4SBUW3CEAzC9ge4YjAMhsWo1aDdpOLkglcel713H7zTLvf8vud3zrm3pWG0GurlAJs4x0dJoZ8qwBoesVrlsgzQxgM2ci0uAizjDjs5MY5TQDhf4KiGeIB+CujjtIb4Fj18FwEHuK4hfsZW3EwEdDHBGW4Q5hDjE+sY4RUdvMXLAAi7fsK/rcTFEobY/av8UrwPgHfMsIevRFwc6jamaYshYY5L3GOlkBBgQXSCfYwXzSc6qHpth7gqG27uL2SX0hjwC6NKJS9S0OoxAAAAAElFTkSuQmCC") 0 32, auto'
   },
 
   {

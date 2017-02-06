@@ -25,5 +25,6 @@ export const beadApp = resourceMaker([], [
   'toggleLayerStatus',
   'copyLayer',
   'chainLayer',
-  'updateLayer'
+  'updateLayer',
+  'toggleMouseInOut'
 ], 'bead_app/')
