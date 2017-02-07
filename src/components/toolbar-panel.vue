@@ -77,7 +77,7 @@ export default {
     readableColor() {
       if (this.pencilColor.rgba) {
         const rgba = this.pencilColor.rgba
-        return `<span style="color:red">${rgba.r}</span> <span style="color:green">${rgba.g}</span> <span style="color:blue">${rgba.b}</span> 𝞪=${rgba.a}`
+        return `<span style="color:red">${rgba.r}</span> <span style="color:green">${rgba.g}</span> <span style="color:blue">${rgba.b}</span>`
       }
     },
     sizeRange() {

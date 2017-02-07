@@ -34,7 +34,7 @@ const state = {
     genNewLayer(),
     genNewLayer()
   ],
-  currentLayerIndex: -1,
+  // currentLayerIndex: -1,
   currentLayer: null,
   onlyLayer: null,
   chains: []
