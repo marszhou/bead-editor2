@@ -1,9 +1,10 @@
 import {beadApp} from '../mutation-types'
 import {resourceMapping, generateGetterCluster, uniqueKey} from 'utils/func'
+import {items as ToolbarItems} from 'components/toolbar/const'
 
 const prefix = 'beadApp_'
 const state = {
-  currentTool: 1,
+  currentTool: 2,
   editorZoom: 1,
   // editorZoomRange: {
   //   min: 1, max: 1
@@ -120,6 +121,37 @@ mutations[beadApp.setAltKey] = (state, v) => {
 }
 // --
 
+function paint(layer, position, size, color) {
+  let area = {}
+  let origin = {
+    x: position.column - layer.translation.x,
+    y: position.row - layer.translation.y
+  }
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size; y++) {
+      area[`${origin.x + x}, ${origin.y + y}`] = {x: origin.x + x, y: origin.y + y, color: color.hex}
+    }
+  }
+  console.log(area)
+  _.assign(layer.data, area)
+}
+
+function eraser(layer, position, size) {
+
+}
+
+function tryPaint(state) {
+  if (state.currentLayer && state.mousedown) {
+    let layer = findLayer(state.layers, state.currentLayer)
+    let toolbarItem = ToolbarItems[state.currentTool]
+    if (toolbarItem.name === 'pencil') {
+      paint(layer, state.mousePosition, state.pencilSize, state.pencilColor)
+    } else if (toolbarItem === 'eraser') {
+      eraser(layer, state.mousePosition, state.eraserSize)
+    }
+  }
+}
+
 // -- is mouse down?
 actions.setMouseDown = ({ commit }, payload) => {
   commit(beadApp.setMouseDown, payload)
@@ -128,6 +160,8 @@ mutations[beadApp.setMouseDown] = (state, {isDown, position, viewPort} = {}) => 
   state.mousedown = isDown
   state.mousedownPosition = position
   state.mousedownViewPort = viewPort
+
+  tryPaint(state)
 }
 // --
 
@@ -137,6 +171,7 @@ actions.setMousePosition = ({ commit }, v) => {
 }
 mutations[beadApp.setMousePosition] = (state, position) => {
   state.mousePosition = position
+  tryPaint(state)
 }
 // --
 
@@ -167,12 +202,15 @@ mutations[beadApp.setEraserSize] = (state, size) => {
 }
 // --
 
+function findLayer(layers, id) {
+  return _.find(layers, {id})
+}
 // -- insertLayer
 function genNewLayer() {
   let newLayer = {
     name: '未命名',
     translation: {x: 0, y: 0},
-    data: [],
+    data: {},
     id: uniqueKey(),
     status: {
       visible: true,

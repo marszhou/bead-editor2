@@ -11,6 +11,7 @@
        @mouseenter='handleMouseIn'>
       <!-- <rect :width='columns * cellWidth' :height='rows * cellWidth' fill='url(#transparentBackground)'></rect> -->
       <!-- layers -->
+      <!-- <layers></layers> -->
       <grid :columns='columns' :rows='rows' :cell-width='cellWidth' :show-line='true' :show-dot='true'></grid>
       <indicator :position='indicatorPosition'
                  :size='indicatorSize'
@@ -23,6 +24,7 @@
 <script>
 import Grid from './grid'
 import Indicator from './indicator'
+import Layers from './layers'
 import { resourceMapActions, resourceMapGetters } from 'utils/func'
 import {items as ToolbarItems} from 'components/toolbar/const'
 const { prefix } = require('store/modules/bead-app')
@@ -32,7 +34,8 @@ export default {
 
   components: {
     Grid,
-    Indicator
+    Indicator,
+    Layers
   },
 
   props: {
@@ -69,7 +72,7 @@ export default {
 
     indicatorColor() {
       switch (ToolbarItems[this.currentTool].name) {
-        case 'pen':
+        case 'pencil':
           return this.pencilColor
         case 'eraser':
           return {hex: '#000000'}
@@ -78,7 +81,7 @@ export default {
 
     indicatorSize() {
       switch (ToolbarItems[this.currentTool].name) {
-        case 'pen':
+        case 'pencil':
           return this.pencilSize * this.cellWidth
         case 'eraser':
           return this.eraserSize * this.cellWidth
@@ -88,7 +91,7 @@ export default {
     indicatorPosition() {
       let size = 1
       switch (ToolbarItems[this.currentTool].name) {
-        case 'pen':
+        case 'pencil':
           size = this.pencilSize
           break
         case 'eraser':
@@ -105,7 +108,7 @@ export default {
       if (!this.mouseInCanvas) return false
       if (!this.currentLayer) return false
       switch (ToolbarItems[this.currentTool].name) {
-        case 'pen':
+        case 'pencil':
         case 'eraser':
           return true
         default:
@@ -177,11 +180,11 @@ export default {
       this.setMousePosition(p)
     },
     handleMouseOut() {
-      console.log('out', arguments)
+      // console.log('out', arguments)
       this.toggleMouseInOut(false)
     },
     handleMouseIn() {
-      console.log('in', arguments)
+      // console.log('in', arguments)
       this.toggleMouseInOut(true)
     }
   },

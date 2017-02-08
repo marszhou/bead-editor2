@@ -13,7 +13,7 @@ export const items = [
   },
 
   {
-    icon: 'fa-pencil', name: 'pen', hotKey: 'p', code: '\uf040', tips: '画笔(P)',
+    icon: 'fa-pencil', name: 'pencil', hotKey: 'p', code: '\uf040', tips: '画笔(P)',
     cursor: 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA2klEQVQ4T6XTMUoDQRiG4WcRrdKbNlewsLHKMewC1iZipeAJRCzEpEoTbGwCAQ9goZAuhwnBwkJkJAs/Yza7IdNN8b7fN/PPFPZcxQ78KR7xgFnJNRWc4TOEneM17ZsIOrhCP2v7J6kTlMnP+MZ1kHygu02Q184l97ipEuRwGZwkLawwwM8mQQ4vcBKq9zCpmkIdnGrfpuRNgp3hOMaqM5dB/5Jjg3QP6VF84Q3TbN6VcGwwxDHu0Mb7WrIVjoInXGKEOV5QC0fBGBeheiM4Co5wuBYcYNn0l/4CjcEyFV8I/vIAAAAASUVORK5CYII=") 0 32, auto'
   },
 
