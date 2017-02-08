@@ -66,7 +66,7 @@ export default new Vuex.Store({
           'bead_app/setEditorDimension',
           'bead_app/setEditorSize',
           'bead_app/setEditorMargin',
-          'bead_app/setMouseDown',
+          // 'bead_app/setMouseDown',
           'bead_app/toggleMouseInOut'
         ].indexOf(type) > -1
       }

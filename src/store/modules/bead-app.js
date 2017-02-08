@@ -124,16 +124,15 @@ mutations[beadApp.setAltKey] = (state, v) => {
 function paint(layer, position, size, color) {
   let area = {}
   let origin = {
-    x: position.column - layer.translation.x,
-    y: position.row - layer.translation.y
+    x: position.column - Math.floor((size-1) / 2) - layer.translation.x,
+    y: position.row - Math.floor((size-1) / 2) - layer.translation.y
   }
   for (let x = 0; x < size; x++) {
     for (let y = 0; y < size; y++) {
       area[`${origin.x + x}, ${origin.y + y}`] = {x: origin.x + x, y: origin.y + y, color: color.hex}
     }
   }
-  console.log(area)
-  _.assign(layer.data, area)
+  layer.data = Object.assign({}, layer.data, area)
 }
 
 function eraser(layer, position, size) {

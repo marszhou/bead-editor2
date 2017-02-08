@@ -11,7 +11,7 @@
        @mouseenter='handleMouseIn'>
       <!-- <rect :width='columns * cellWidth' :height='rows * cellWidth' fill='url(#transparentBackground)'></rect> -->
       <!-- layers -->
-      <!-- <layers></layers> -->
+      <layers :layers='layers' :cell-width='cellWidth'></layers>
       <grid :columns='columns' :rows='rows' :cell-width='cellWidth' :show-line='true' :show-dot='true'></grid>
       <indicator :position='indicatorPosition'
                  :size='indicatorSize'
@@ -67,7 +67,8 @@ export default {
       'eraserSize',
       'currentTool',
       'mouseInCanvas',
-      'currentLayer'
+      'currentLayer',
+      'layers'
     ], prefix),
 
     indicatorColor() {

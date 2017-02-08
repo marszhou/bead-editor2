@@ -1,15 +1,22 @@
 <template>
   <g>
-
+    <layer v-for='(layer, index) of reverseLayers' :layer='layer' :cell-width='cellWidth'></layer>
   </g>
 </template>
 
 <script>
-import { resourceMapActions, resourceMapGetters } from 'utils/func'
+import Layer from './layer'
 
 export default {
-
   name: 'layers',
+
+  components: {
+    Layer
+  },
+
+  props: [
+    'layers', 'cellWidth'
+  ],
 
   data() {
     return {
@@ -18,9 +25,9 @@ export default {
   },
 
   computed: {
-    ...resourceMapGetters([
-      'layers'
-    ])
+    reverseLayers() {
+      return _.reverse(this.layers.slice())
+    }
   },
 
   methods: {

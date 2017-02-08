@@ -6,7 +6,7 @@
           :width='cellWidth'
           :height='cellWidth'
           :class='getCellClass(index)'></rect> -->
-    <rect :x='0' :width='cellWidth * columns' :y='0' :height='cellWidth * rows' fill='white'>
+    <rect :x='0' :width='cellWidth * columns' :y='0' :height='cellWidth * rows' fill='rgba(255, 255, 255, 0)'>
     </rect>
     <!-- 横线 -->
     <line v-for='(i, index) of yCells'
