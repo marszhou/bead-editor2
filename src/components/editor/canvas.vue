@@ -11,7 +11,7 @@
        @mouseenter='handleMouseIn'>
       <!-- <rect :width='columns * cellWidth' :height='rows * cellWidth' fill='url(#transparentBackground)'></rect> -->
       <!-- layers -->
-      <layers :layers='layers' :cell-width='cellWidth'></layers>
+      <layers :layers='layers' :cell-width='cellWidth' :only-layer='onlyLayer'></layers>
       <grid :columns='columns' :rows='rows' :cell-width='cellWidth' :show-line='true' :show-dot='true'></grid>
       <indicator :position='indicatorPosition'
                  :size='indicatorSize'
@@ -27,7 +27,7 @@ import Indicator from './indicator'
 import Layers from './layers'
 import { resourceMapActions, resourceMapGetters } from 'utils/func'
 import {items as ToolbarItems} from 'components/toolbar/const'
-const { prefix } = require('store/modules/bead-app')
+const { prefix, isLayerVisible, findLayer } = require('store/modules/bead-app')
 
 export default {
   name: 'b-canvas',
@@ -68,7 +68,8 @@ export default {
       'currentTool',
       'mouseInCanvas',
       'currentLayer',
-      'layers'
+      'layers',
+      'onlyLayer'
     ], prefix),
 
     indicatorColor() {
@@ -108,6 +109,9 @@ export default {
     indicatorVisible() {
       if (!this.mouseInCanvas) return false
       if (!this.currentLayer) return false
+      let layer = findLayer(this.layers, this.currentLayer)
+      if (!isLayerVisible(layer)) return false
+
       switch (ToolbarItems[this.currentTool].name) {
         case 'pencil':
         case 'eraser':

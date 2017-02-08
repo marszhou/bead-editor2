@@ -1,5 +1,5 @@
 <template>
-  <g :transform='getTranslate(layer.translation.x * cellWidth, layer.translation.y * cellWidth)'>
+  <g v-if='visible' :transform='getTranslate(layer.translation.x * cellWidth, layer.translation.y * cellWidth)'>
     <rect v-for='cell of cells'
           :x='cell.x * cellWidth'
           :y='cell.y * cellWidth'
@@ -17,7 +17,7 @@ export default {
 
   name: 'layer',
 
-  props: ['layer', 'cellWidth'],
+  props: ['layer', 'cellWidth', 'visible'],
 
   data() {
     return {

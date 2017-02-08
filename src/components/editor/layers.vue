@@ -1,11 +1,15 @@
 <template>
   <g>
-    <layer v-for='(layer, index) of reverseLayers' :layer='layer' :cell-width='cellWidth'></layer>
+    <layer v-for='(layer, index) of reverseLayers'
+           :layer='layer'
+           :cell-width='cellWidth'
+           :visible='isLayerVisible(layer)'></layer>
   </g>
 </template>
 
 <script>
 import Layer from './layer'
+const { isLayerVisible } = require('store/modules/bead-app')
 
 export default {
   name: 'layers',
@@ -15,7 +19,7 @@ export default {
   },
 
   props: [
-    'layers', 'cellWidth'
+    'layers', 'cellWidth', 'onlyLayer'
   ],
 
   data() {
@@ -31,7 +35,9 @@ export default {
   },
 
   methods: {
-
+    isLayerVisible(layer) {
+      return isLayerVisible(layer)
+    }
   }
 }
 </script>

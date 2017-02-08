@@ -53,7 +53,7 @@
 
 <script>
 import { resourceMapGetters, resourceMapActions } from 'utils/func'
-const { prefix } = require('store/modules/bead-app')
+const { prefix, isLayerVisible } = require('store/modules/bead-app')
 import Draggable from 'vuedraggable'
 import Layer from './layer'
 import Dialog from 'components/common/dialog'
@@ -101,14 +101,7 @@ export default {
       'updateLayer'
     ], prefix),
     isLayerVisible(layer) {
-      if (this.onlyLayer) {
-        if (this.onlyLayer === layer.id) {
-          return true
-        } else {
-          return layer.status.force
-        }
-      }
-      return layer.status.visible
+      return isLayerVisible(layer)
     },
     handleRemove() {
       if (this.currentLayer) {

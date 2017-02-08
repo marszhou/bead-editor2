@@ -139,9 +139,22 @@ function eraser(layer, position, size) {
 
 }
 
+const isLayerVisible = _.partial((state, layer) => {
+  if (state.onlyLayer) {
+    if (state.onlyLayer === layer.id) {
+      return true
+    } else {
+      return layer.status.force
+    }
+  }
+  return layer.status.visible
+}, state)
+
 function tryPaint(state) {
   if (state.currentLayer && state.mousedown) {
     let layer = findLayer(state.layers, state.currentLayer)
+    if (!isLayerVisible(layer)) return
+
     let toolbarItem = ToolbarItems[state.currentTool]
     if (toolbarItem.name === 'pencil') {
       paint(layer, state.mousePosition, state.pencilSize, state.pencilColor)
@@ -395,5 +408,8 @@ module.exports = {
   getters: resourceMapping(getters, prefix),
   actions: resourceMapping(actions, prefix),
   mutations,
-  prefix
+  prefix,
+  // -- exports functions
+  isLayerVisible,
+  findLayer
 }
