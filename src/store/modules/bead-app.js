@@ -136,7 +136,18 @@ function paint(layer, position, size, color) {
 }
 
 function eraser(layer, position, size) {
+  // let area = []
+  let origin = {
+    x: position.column - Math.floor((size-1) / 2) - layer.translation.x,
+    y: position.row - Math.floor((size-1) / 2) - layer.translation.y
+  }
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size; y++) {
+      delete layer.data[`${origin.x + x}, ${origin.y + y}`]
+    }
+  }
 
+  layer.data = Object.assign({}, layer.data)
 }
 
 const isLayerVisible = _.partial((state, layer) => {
@@ -158,8 +169,17 @@ function tryPaint(state) {
     let toolbarItem = ToolbarItems[state.currentTool]
     if (toolbarItem.name === 'pencil') {
       paint(layer, state.mousePosition, state.pencilSize, state.pencilColor)
-    } else if (toolbarItem === 'eraser') {
+    } else if (toolbarItem.name === 'eraser') {
       eraser(layer, state.mousePosition, state.eraserSize)
+    }
+  }
+}
+
+function tryMove(state) {
+  if (state.currentLayer && state.mousedown) {
+    let toolbarItem = ToolbarItems[state.currentTool]
+    if (toolbarItem.name === 'move') {
+      console.log('move')
     }
   }
 }
@@ -184,6 +204,7 @@ actions.setMousePosition = ({ commit }, v) => {
 mutations[beadApp.setMousePosition] = (state, position) => {
   state.mousePosition = position
   tryPaint(state)
+  tryMove(state)
 }
 // --
 
