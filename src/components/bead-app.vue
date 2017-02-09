@@ -208,8 +208,8 @@ export default {
     },
 
     moveEditorViewPort(pos) {
-      let dx = pos.px - this.mousedownPosition.x
-      let dy = pos.py - this.mousedownPosition.y
+      let dx = pos.px - this.mousedownPosition.px
+      let dy = pos.py - this.mousedownPosition.py
 
       let x1 = (this.mousedownViewPort.x1 * this.editorCellWidth - dx) / this.editorCellWidth
       let w = this.mousedownViewPort.x2 - this.mousedownViewPort.x1

@@ -25,6 +25,7 @@ const state = {
   mousedownPosition: null,
   mousedownViewPort: null,
   mouseInCanvas: false,
+  oldLayerTranslations: null,
 
   mousePosition: {x: 0, y: 0, column: 0, row: 0},
   pencilColor: {hex: '#000000'},
@@ -179,7 +180,21 @@ function tryMove(state) {
   if (state.currentLayer && state.mousedown) {
     let toolbarItem = ToolbarItems[state.currentTool]
     if (toolbarItem.name === 'move') {
-      console.log('move')
+      let chain = _.find(state.chains, chain => chain.indexOf(state.currentLayer) > -1)
+      if (!chain) {
+        chain = [state.currentLayer]
+      }
+      // console.log(chain)
+      // console.log(oldLayerTranslations)
+      chain.forEach((layerId, index) => {
+        let layer = findLayer(state.layers, layerId)
+        let xDiff = state.mousePosition.column - state.mousedownPosition.column
+        let yDiff = state.mousePosition.row - state.mousedownPosition.row
+        layer.translation = {
+          x: state.oldLayerTranslations[layer.id].x + xDiff,
+          y: state.oldLayerTranslations[layer.id].y + yDiff
+        }
+      })
     }
   }
 }
@@ -192,6 +207,14 @@ mutations[beadApp.setMouseDown] = (state, {isDown, position, viewPort} = {}) => 
   state.mousedown = isDown
   state.mousedownPosition = position
   state.mousedownViewPort = viewPort
+  if (isDown) {
+    state.oldLayerTranslations = _.reduce(state.layers, (ret, layer) => {
+      ret[layer.id] = Object.assign({}, layer.translation)
+      return ret
+    }, {})
+  } else {
+    state.oldLayerTranslations = null
+  }
 
   tryPaint(state)
 }
