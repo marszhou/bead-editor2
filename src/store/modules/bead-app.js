@@ -471,7 +471,30 @@ getters.usedColors = (state) => {
 }
 
 getters.colorStatics = (state) => {
+  let flatternLayer = _.reduce(state.layers.slice().reverse(), (ret, layer) => {
+    if (isLayerVisible(layer)) {
+      _.values(layer.data).forEach(cell => {
+        let x = cell.x + layer.translation.x
+        let y = cell.y + layer.translation.y
+        if (x < 0 || x >= state.editorSize.columns || y < 0 || y >= state.editorSize.rows) {
+          // skip
+        } else {
+          ret[`${x}, ${y}`] = {x, y, color: cell.color}
+        }
+      })
+    }
+    return ret
+  }, {})
 
+  let colors = _.reduce(_.values(flatternLayer), (ret, cell) => {
+    if (!_.isUndefined(ret[cell.color])) {
+      ret[cell.color] += 1
+    } else {
+      ret[cell.color] = 1
+    }
+    return ret
+  }, {})
+  return { colors, flatternLayer }
 }
 
 module.exports = {
