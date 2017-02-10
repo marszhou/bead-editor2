@@ -102,8 +102,8 @@ export default {
           break
       }
       return {
-        x: (this.mousePosition.column - Math.floor((size-1) / 2)) * this.cellWidth,
-        y: (this.mousePosition.row - Math.floor((size-1) / 2)) * this.cellWidth
+        x: (this.mousePosition.column - Math.floor((size-1) / 2)) * this.cellWidth, //+ this.viewPort.x1 * this.cellWidth,
+        y: (this.mousePosition.row - Math.floor((size-1) / 2)) * this.cellWidth //+ this.viewPort.y1 * this.cellWidth
       }
     },
 
@@ -166,8 +166,8 @@ export default {
           py: e.pageY,
           x: e.pageX - canvasRect.left,
           y: e.pageY - canvasRect.top,
-          column: Math.floor((e.pageX - canvasRect.left) / this.cellWidth),
-          row: Math.floor((e.pageY - canvasRect.top) / this.cellWidth)
+          column: Math.floor((e.pageX - canvasRect.left) / this.cellWidth + this.viewPort.x1),
+          row: Math.floor((e.pageY - canvasRect.top) / this.cellWidth + this.viewPort.y1)
         },
         viewPort: _.clone(this.viewPort),
         event: e
@@ -193,8 +193,8 @@ export default {
       let rect = document.getElementById('canvas-bg').getBoundingClientRect()
       let x = e.x - rect.left
       let y = e.y - rect.top
-      let column = Math.floor(x / this.cellWidth)
-      let row = Math.floor(y / this.cellWidth)
+      let column = Math.floor(x / this.cellWidth + this.viewPort.x1)
+      let row = Math.floor(y / this.cellWidth + this.viewPort.y1)
       // console.log(column, row)
       let p = {x, y, column, row}
       // console.log(p)
