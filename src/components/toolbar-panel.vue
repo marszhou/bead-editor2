@@ -14,6 +14,12 @@
         <span v-html='readableColor'></span>
       </li>
       <li class="list-group-item">
+        <span v-for='color of usedColors'
+              class='color-block'
+              @click.stop.prevent='handleColorChange({hex: color})'
+              :style='{"background-color": color}'></span>
+      </li>
+      <li class="list-group-item">
         笔触
         <div class="btn-group btn-group-xs">
           <a data-toggle='dropdown' href='###'>{{readablePencilSize}}</a>
@@ -72,13 +78,15 @@ export default {
     ...resourceMapGetters([
       'pencilColor',
       'pencilSize',
-      'eraserSize'
+      'eraserSize',
+      'usedColors'
     ], prefix),
     readableColor() {
-      if (this.pencilColor.rgba) {
-        const rgba = this.pencilColor.rgba
-        return `<span style="color:red">${rgba.r}</span> <span style="color:green">${rgba.g}</span> <span style="color:blue">${rgba.b}</span>`
-      }
+      // if (this.pencilColor.rgba) {
+      //   const rgba = this.pencilColor.rgba
+      //   return `<span style="color:red">${rgba.r}</span> <span style="color:green">${rgba.g}</span> <span style="color:blue">${rgba.b}</span>`
+      // }
+      return this.pencilColor.hex
     },
     sizeRange() {
       return _.range(1, 10)
@@ -127,5 +135,6 @@ span.color-block {
   border: 1px solid black;
   vertical-align: text-bottom;
   cursor: pointer;
+  margin-right: 3px;
 }
 </style>

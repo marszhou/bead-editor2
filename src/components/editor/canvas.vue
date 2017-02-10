@@ -2,6 +2,7 @@
   <g :transform='getTranslate(rect.x, rect.y)'
      clip-path='url(#canvasMask)'
      :style='{cursor: cursor}'>
+     {{usedColors}}
     <g :transform='getTranslate((-viewPort.x1 * cellWidth), (-viewPort.y1 * cellWidth))'
        ref='canvas'
        @click='handleClick'
@@ -70,7 +71,8 @@ export default {
       'currentLayer',
       'layers',
       'onlyLayer',
-      'editorMargin'
+      'editorMargin',
+      'usedColors'
     ], prefix),
 
     indicatorColor() {

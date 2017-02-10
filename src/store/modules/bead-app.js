@@ -459,6 +459,21 @@ mutations[beadApp.toggleMouseInOut] = (state, v) => {
 }
 // --
 
+getters.usedColors = (state) => {
+  return _.reduce(state.layers, (ret, layer) => {
+    _.values(layer.data).forEach(cell => {
+      if (_.indexOf(ret, cell.color) === -1) {
+        ret.push(cell.color)
+      }
+    })
+    return ret
+  }, [])
+}
+
+getters.colorStatics = (state) => {
+
+}
+
 module.exports = {
   state,
   getters: resourceMapping(getters, prefix),
