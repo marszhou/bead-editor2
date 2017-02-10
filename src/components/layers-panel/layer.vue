@@ -1,7 +1,7 @@
 <template>
   <div class='row' style='height: 48px'>
     <div class='col-xs-3'>
-      <svg class='preview'></svg>
+      <preview :layer='layer'></preview>
     </div>
     <div class='col-xs-9'>
       <a href='#' @click.prevent.stop='$emit("name-edit")' style='line-height: 1.8em; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width: 140px; display: inline-block'>{{layer.name}}</a><br/>
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import Preview from './preview'
+
 import { resourceMapActions, resourceMapGetters } from 'utils/func'
 const { prefix } = require('store/modules/bead-app')
 
@@ -53,7 +55,7 @@ export default {
   name: 'layer-item',
   props: ['layer'],
   components: {
-
+    Preview
   },
 
   computed: {

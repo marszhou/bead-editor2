@@ -16,6 +16,12 @@
                xlink:href="./static/assets/t.png"/>
       </pattern>
     </defs>
+    <rect id='canvas-bg'
+          :x='canvasRect.x'
+          :y='canvasRect.y'
+          :width='canvasRect.width'
+          :height='canvasRect.height'
+          fill='white'></rect>
     <axis type='horizontal'
           :x='canvasRect.x' :y='canvasRect.y' :ruler-length='margin[0]'
           :from='viewPort.x1' :to='viewPort.x2'

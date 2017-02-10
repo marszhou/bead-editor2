@@ -69,7 +69,8 @@ export default {
       'mouseInCanvas',
       'currentLayer',
       'layers',
-      'onlyLayer'
+      'onlyLayer',
+      'editorMargin'
     ], prefix),
 
     indicatorColor() {
@@ -155,7 +156,9 @@ export default {
       // console.log(e)
       $(window).on('mouseup', this.handleMouseUp)
 
-      let canvasRect = this.$el.getBoundingClientRect()
+      let canvasRect = document.getElementById('canvas-bg').getBoundingClientRect()
+      // let canvasRect = this.$el.getBoundingClientRect()
+
       this.setMouseDown({
         isDown: true,
         position: {
@@ -166,7 +169,8 @@ export default {
           column: Math.floor((e.pageX - canvasRect.left) / this.cellWidth),
           row: Math.floor((e.pageY - canvasRect.top) / this.cellWidth)
         },
-        viewPort: _.clone(this.viewPort)
+        viewPort: _.clone(this.viewPort),
+        event: e
       })
     },
     handleGlobalMouseMove(e) {
@@ -181,17 +185,20 @@ export default {
     handleMouseUp(e) {
       $(window).off('mouseup', this.handleMouseUp)
       // console.log('mouse-up')
-      this.setMouseDown(false)
+      this.setMouseDown({isDown: false})
     },
     handleMouseMove(e) {
-      let rect = this.$refs.canvas.getClientRects()[0]
+      // debugger
+      // let rect = this.$refs.canvas.getClientRects()[0]
+      let rect = document.getElementById('canvas-bg').getBoundingClientRect()
       let x = e.x - rect.left
       let y = e.y - rect.top
       let column = Math.floor(x / this.cellWidth)
       let row = Math.floor(y / this.cellWidth)
+      // console.log(column, row)
       let p = {x, y, column, row}
       // console.log(p)
-      this.setMousePosition(p)
+      this.setMousePosition({position: p, event: e})
     },
     handleMouseOut() {
       // console.log('out', arguments)

@@ -19,7 +19,7 @@ const state = {
   },
   // cellWidth: 0,
   // currentCell: {},
-  editorMargin: [25, 25],
+  editorMargin: [25, 25], // top, left
   altKey: false,
   mousedown: false,
   mousedownPosition: null,
@@ -162,16 +162,28 @@ const isLayerVisible = _.partial((state, layer) => {
   return layer.status.visible
 }, state)
 
-function tryPaint(state) {
+function tryPaint(state, event) {
   if (state.currentLayer && state.mousedown) {
     let layer = findLayer(state.layers, state.currentLayer)
     if (!isLayerVisible(layer)) return
 
     let toolbarItem = ToolbarItems[state.currentTool]
+    let position = _.clone(state.mousePosition)
+    if (event.shiftKey) {
+      let downPosition = state.mousedownPosition
+      let diffColumn = downPosition.column - position.column
+      let diffRow = downPosition.row - position.row
+
+      if (Math.abs(diffColumn) > Math.abs(diffRow)) { // horizontal
+        position.row = downPosition.row
+      } else { // vertical
+        position.column = downPosition.column
+      }
+    }
     if (toolbarItem.name === 'pencil') {
-      paint(layer, state.mousePosition, state.pencilSize, state.pencilColor)
+      paint(layer, position, state.pencilSize, state.pencilColor)
     } else if (toolbarItem.name === 'eraser') {
-      eraser(layer, state.mousePosition, state.eraserSize)
+      eraser(layer, position, state.eraserSize)
     }
   }
 }
@@ -203,7 +215,7 @@ function tryMove(state) {
 actions.setMouseDown = ({ commit }, payload) => {
   commit(beadApp.setMouseDown, payload)
 }
-mutations[beadApp.setMouseDown] = (state, {isDown, position, viewPort} = {}) => {
+mutations[beadApp.setMouseDown] = (state, {isDown, position, viewPort, event} = {}) => {
   state.mousedown = isDown
   state.mousedownPosition = position
   state.mousedownViewPort = viewPort
@@ -216,7 +228,7 @@ mutations[beadApp.setMouseDown] = (state, {isDown, position, viewPort} = {}) => 
     state.oldLayerTranslations = null
   }
 
-  tryPaint(state)
+  tryPaint(state, event)
 }
 // --
 
@@ -224,9 +236,9 @@ mutations[beadApp.setMouseDown] = (state, {isDown, position, viewPort} = {}) => 
 actions.setMousePosition = ({ commit }, v) => {
   commit(beadApp.setMousePosition, v)
 }
-mutations[beadApp.setMousePosition] = (state, position) => {
+mutations[beadApp.setMousePosition] = (state, {position, event}) => {
   state.mousePosition = position
-  tryPaint(state)
+  tryPaint(state, event)
   tryMove(state)
 }
 // --
