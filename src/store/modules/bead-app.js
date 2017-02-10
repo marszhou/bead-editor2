@@ -459,6 +459,24 @@ mutations[beadApp.toggleMouseInOut] = (state, v) => {
 }
 // --
 
+// -- removeColor
+actions.removeColor = ({ commit }, {color}) => {
+  commit(beadApp.removeColor, color)
+}
+mutations[beadApp.removeColor] = (state, color) => {
+
+}
+// --
+
+// -- generateLayerFromColor
+actions.generateLayerFromColor = ({ commit }, { color }) => {
+  commit(beadApp.generateLayerFromColor, color)
+}
+mutations[beadApp.generateLayerFromColor] = (state, color) => {
+
+}
+// --
+
 getters.usedColors = (state) => {
   return _.reduce(state.layers, (ret, layer) => {
     _.values(layer.data).forEach(cell => {

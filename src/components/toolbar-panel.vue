@@ -128,13 +128,5 @@ export default {
 </script>
 
 <style lang="css" scoped>
-span.color-block {
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  border: 1px solid black;
-  vertical-align: text-bottom;
-  cursor: pointer;
-  margin-right: 3px;
-}
+
 </style>
