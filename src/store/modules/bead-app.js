@@ -288,6 +288,25 @@ function genNewLayer() {
   }
   return newLayer
 }
+function flatternLayers(layers, includeInvisible = false) {
+  return _.reduce(layers, (ret, layer) => {
+    if (includeInvisible || isLayerVisible(layer)) {
+      _.values(layer.data).forEach(cell => {
+        let x = cell.x + layer.translation.x
+        let y = cell.y + layer.translation.y
+        if (x < 0 || x >= state.editorSize.columns || y < 0 || y >= state.editorSize.rows) {
+          // skip
+        } else {
+          ret[`${x}, ${y}`] = {x, y, color: cell.color}
+        }
+      })
+    }
+    return ret
+  }, {})
+}
+function getCurrentLayer(state) {
+  return _.find(state.layers, {id: state.currentLayer})
+}
 actions.insertLayer = ({ commit }, position) => {
   commit(beadApp.insertLayer, position)
 }
@@ -326,20 +345,25 @@ mutations[beadApp.copyLayer] = (state, id) => {
 // --
 
 // -- removeLayer
-actions.removeLayer = ({ commit }, layerId) => {
-  commit(beadApp.removeLayer, layerId)
-}
-mutations[beadApp.removeLayer] = (state, layerId) => {
+function removeLayer(state, layerId) {
   let index = _.findIndex(state.layers, {id: layerId})
   state.layers.splice(index, 1)
   // state.currentLayerIndex = -1
-  state.currentLayer = null
+  if (layerId === state.currentLayer) {
+    state.currentLayer = null
+  }
   if (layerId === state.onlyLayer) {
     state.onlyLayer = null
     state.layers.forEach(layer => {
       layer.status.force = false
     })
   }
+}
+actions.removeLayer = ({ commit }, layerId) => {
+  commit(beadApp.removeLayer, layerId)
+}
+mutations[beadApp.removeLayer] = (state, layerId) => {
+  removeLayer(state, layerId)
 }
 // --
 
@@ -395,12 +419,18 @@ mutations[beadApp.toggleLayerStatus] = (state, { status, id }) => {
 // --
 
 // -- chainLayer
+getters.currentChain = (state) => {
+  if (state.currentLayer) {
+    return _.find(state.chains, layers => layers.indexOf(state.currentLayer) > -1)
+  }
+  return null
+}
 getters.chainStatuses = (state) => {
   return _.reduce(state.layers, (ret, layer) => {
     if (layer.id === state.currentLayer) {
       ret[layer.id] = true
     } else {
-      let chain = _.find(state.chains, layers => layers.indexOf(state.currentLayer) > -1)
+      let chain = getters.currentChain(state)
       ret[layer.id] = chain ? chain.indexOf(layer.id) > -1 : false
     }
     return ret
@@ -477,6 +507,25 @@ mutations[beadApp.generateLayerFromColor] = (state, color) => {
 }
 // --
 
+// -- mergeLayers 合并层
+actions.mergeLayers = ({commit}, payload) => {
+  commit(beadApp.mergeLayers, payload)
+}
+mutations[beadApp.mergeLayers] = (state, {currentLayer, chain}) => {
+  let layers = state.layers.filter(layer => chain.indexOf(layer.id) > -1).reverse()
+  let flatternLayer = flatternLayers(layers)
+  let current = getCurrentLayer(state)
+  current.data = flatternLayer
+  current.translation = {x: 0, y: 0}
+  let chainIndex = _.findIndex(state.chains, chain => chain.indexOf(currentLayer) > -1)
+  if (chainIndex > -1) {
+    state.chains.splice(chainIndex, 1)
+  }
+
+  layers.filter(layer => layer.id !== state.currentLayer).forEach(layer => removeLayer(state, layer.id))
+}
+//
+
 getters.usedColors = (state) => {
   return _.reduce(state.layers, (ret, layer) => {
     _.values(layer.data).forEach(cell => {
@@ -488,21 +537,25 @@ getters.usedColors = (state) => {
   }, [])
 }
 
+
+
 getters.colorStatics = (state) => {
-  let flatternLayer = _.reduce(state.layers.slice().reverse(), (ret, layer) => {
-    if (isLayerVisible(layer)) {
-      _.values(layer.data).forEach(cell => {
-        let x = cell.x + layer.translation.x
-        let y = cell.y + layer.translation.y
-        if (x < 0 || x >= state.editorSize.columns || y < 0 || y >= state.editorSize.rows) {
-          // skip
-        } else {
-          ret[`${x}, ${y}`] = {x, y, color: cell.color}
-        }
-      })
-    }
-    return ret
-  }, {})
+  let flatternLayer = flatternLayers(state.layers.slice().reverse())
+
+  // _.reduce(state.layers.slice().reverse(), (ret, layer) => {
+  //   if (isLayerVisible(layer)) {
+  //     _.values(layer.data).forEach(cell => {
+  //       let x = cell.x + layer.translation.x
+  //       let y = cell.y + layer.translation.y
+  //       if (x < 0 || x >= state.editorSize.columns || y < 0 || y >= state.editorSize.rows) {
+  //         // skip
+  //       } else {
+  //         ret[`${x}, ${y}`] = {x, y, color: cell.color}
+  //       }
+  //     })
+  //   }
+  //   return ret
+  // }, {})
 
   let colors = _.reduce(_.values(flatternLayer), (ret, cell) => {
     if (!_.isUndefined(ret[cell.color])) {

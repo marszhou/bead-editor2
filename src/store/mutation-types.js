@@ -28,5 +28,6 @@ export const beadApp = resourceMaker([], [
   'updateLayer',
   'toggleMouseInOut',
   'removeColor',
-  'generateLayerFromColor'
+  'generateLayerFromColor',
+  'mergeLayers'
 ], 'bead_app/')

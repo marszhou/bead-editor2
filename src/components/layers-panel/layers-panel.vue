@@ -17,12 +17,18 @@
 
     <div class="btn-toolbar">
       <div class="btn-group">
-        <button type="button" class="btn btn-default layer-btn" @click='handleInsert'>
+        <button type="button" class="btn btn-default layer-btn" @click='handleInsert' title='插入层'>
           <i class='fa fa-plus'></i>
         </button>
-        <button type="button" class="btn btn-default layer-btn" @click='handleRemove' :disabled="!!!currentLayer">
+
+        <button type="button" class="btn btn-default layer-btn" @click='handleMerge' :disabled="!currentChain" title='合并层'>
+          <i class='fa fa-object-group'></i>
+        </button>
+
+        <button type="button" class="btn btn-default layer-btn" @click='handleRemove' :disabled="!!!currentLayer" title='删除层'>
           <i class='fa fa-trash-o'></i>
         </button>
+
       </div>
     </div>
 
@@ -83,7 +89,8 @@ export default {
       'layers',
       'currentLayer',
       'onlyLayer',
-      'chainStatuses'
+      'chainStatuses',
+      'currentChain'
     ], prefix),
 
     fakeLayers() {
@@ -98,10 +105,14 @@ export default {
       'setLayers',
       'setCurrentLayer',
       'toggleCurrentLayer',
-      'updateLayer'
+      'updateLayer',
+      'mergeLayers'
     ], prefix),
     isLayerVisible(layer) {
       return isLayerVisible(layer)
+    },
+    handleMerge() {
+      this.mergeLayers({currentLayer: this.currentLayer, chain: this.currentChain})
     },
     handleRemove() {
       if (this.currentLayer) {
