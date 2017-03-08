@@ -14,7 +14,7 @@ const routes = [
     name: 'home'
   },
   {
-    path: '/beads-editor2',
+    path: '/bead-editor2',
     component: Home,
     name: 'home2'
   },
@@ -32,7 +32,7 @@ const routes = [
   },
   {
     path: '*',
-    redirect: '/beads-editor2'
+    redirect: '/bead-editor2'
   }
 ]
 
