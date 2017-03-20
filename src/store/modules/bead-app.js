@@ -3,6 +3,8 @@ import {resourceMapping, generateGetterCluster, uniqueKey} from 'utils/func'
 import {items as ToolbarItems} from 'components/toolbar/const'
 
 const prefix = 'beadApp_'
+const layer0 = genNewLayer()
+const layer1 = genNewLayer()
 const state = {
   currentTool: 2,
   editorZoom: 1,
@@ -33,11 +35,11 @@ const state = {
   eraserSize: 1,
 
   layers: [
-    genNewLayer(),
-    genNewLayer()
+    layer0,
+    layer1
   ],
   // currentLayerIndex: -1,
-  currentLayer: null,
+  currentLayer: layer0.id,
   onlyLayer: null,
   chains: []
 }
